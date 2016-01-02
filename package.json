@@ -1,0 +1,14 @@
+{
+  "name": "pin",
+  "version": "1.0.0",
+  "description": "Save stuff to pinboard from the command line",
+  "main": "index.coffee",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "pinboard"
+  ],
+  "author": "@bkuri",
+  "license": "MIT"
+}
