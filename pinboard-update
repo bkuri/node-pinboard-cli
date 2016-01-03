@@ -1,0 +1,17 @@
+#!/usr/bin/coffee
+'use strict'
+
+
+_ = (require 'lodash')
+# chalk = (require 'chalk')
+config = (require './config')
+# moment = (require 'moment')
+Pinboard = (require 'node-pinboard')
+
+
+(require 'commander')
+  .action ->
+    Pinboard(config.token).update()
+    return
+
+  .parse process.argv

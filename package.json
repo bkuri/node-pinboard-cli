@@ -1,8 +1,8 @@
 {
   "name": "pinboard",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "description": "Save stuff to pinboard from the command line",
-  "main": "index.coffee",
+  "main": "pinboard",
   "scripts": {
     "start": "pinboard",
     "test": "echo \"Error: no test specified\" && exit 1"

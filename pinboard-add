@@ -4,7 +4,7 @@
 
 _ = (require 'lodash')
 # chalk = (require 'chalk')
-config = (require './config.json')
+config = (require './config')
 # moment = (require 'moment')
 Pinboard = (require 'node-pinboard')
 pin = (require 'commander')
@@ -25,9 +25,9 @@ add = (url, tags...) ->
     toread: (reply pin.toRead)
 
   pinboard.add bookmark, (res) ->
-    (process.exit 1) if (res.result_code? isnt 'done')
-    process.exit 0
-    return
+    process.exit not (res.result_code? and (res.result_code is 'done'))
+
+  return
 
 
 pin
