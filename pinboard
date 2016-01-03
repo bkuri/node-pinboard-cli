@@ -5,8 +5,6 @@
 ###
   .command 'all [tags...]'
   .command 'dates [tags...]', 'bookmarks separated by date'
-  .command 'delete <url>', 'delete a bookmark'
-  .command 'get <url> [tags...]', 'bookmarks of the day', isDefault: yes
   .command 'notes [id]', 'get one/all note(s)'
   .command 'private', 'Return private feed RSS key'
   .command 'recent [tags...]', 'most recent bookmarks by tag'
@@ -16,8 +14,10 @@
 
 
 (require 'commander')
-  .version '0.0.2'
+  .version '0.0.4'
   .usage 'pin <action> [params...]'
   .command 'add <url> [tags...]', 'add a bookmark'
+  .command 'delete <url>', 'delete a bookmark'
+  .command 'get <url> [tags...]', 'bookmarks of the day', isDefault: yes
   .command 'update', 'datetime of most recent action'
   .parse process.argv

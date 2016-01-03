@@ -1,0 +1,26 @@
+#!/usr/bin/coffee
+'use strict'
+
+
+_ = (require 'lodash')
+# chalk = (require 'chalk')
+config = (require './config')
+# moment = (require 'moment')
+Pinboard = (require 'node-pinboard')
+
+
+(require 'commander')
+  .action (url) ->
+    pinboard = new Pinboard(config.token)
+
+    try
+      pinboard.delete url, (res) ->
+        process.exit not (res.result_code? and (res.result_code is 'done'))
+
+    catch e
+      console.error e
+      process.exit yes
+
+    return
+
+  .parse process.argv

@@ -24,8 +24,13 @@ add = (url, tags...) ->
     shared: (reply pin.shared)
     toread: (reply pin.toRead)
 
-  pinboard.add bookmark, (res) ->
-    process.exit not (res.result_code? and (res.result_code is 'done'))
+  try
+    pinboard.add bookmark, (res) ->
+      process.exit not (res.result_code? and (res.result_code is 'done'))
+
+  catch e
+    console.error e
+    process.exit yes
 
   return
 
