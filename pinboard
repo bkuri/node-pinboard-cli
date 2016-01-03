@@ -1,0 +1,9 @@
+#!/usr/bin/coffee
+'use strict'
+
+
+(require 'commander')
+  .version '0.0.1'
+  .usage '<action> [params...]'
+  .command 'add <url> [tags...]', 'add a bookmark'
+  .parse process.argv

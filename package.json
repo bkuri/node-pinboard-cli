@@ -1,14 +1,22 @@
 {
-  "name": "pin",
+  "name": "pinboard",
   "version": "1.0.0",
   "description": "Save stuff to pinboard from the command line",
   "main": "index.coffee",
   "scripts": {
+    "start": "pinboard",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "pinboard"
   ],
   "author": "@bkuri",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^1.1.1",
+    "commander": "^2.9.0",
+    "lodash": "^3.10.1",
+    "moment": "^2.10.6",
+    "node-pinboard": "^0.1.1"
+  }
 }
