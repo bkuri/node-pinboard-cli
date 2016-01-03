@@ -1,0 +1,46 @@
+#!/usr/bin/coffee
+'use strict'
+
+
+_ = (require 'lodash')
+# chalk = (require 'chalk')
+config = (require './config')
+# moment = (require 'moment')
+Pinboard = (require 'node-pinboard')
+pin = (require 'commander')
+
+
+action = (url, tags) ->
+  pinboard = Pinboard(config.token)
+
+  reply = (what) -> if what? and (what is yes) then 'yes' else 'no'
+
+  options =
+    url: url
+    description: pin.description
+    extended: pin.extended
+    tags: _.dropRight(tags).join ','
+    replace: (reply pin.replaced)
+    shared: (reply pin.shared)
+    toread: (reply pin.toRead)
+
+  try
+    pinboard.get options, (body) ->
+      console.log "response: #{body}"
+      process.exit no
+
+  catch e
+    console.error e
+    process.exit yes
+
+  return
+
+
+pin
+  .option '-d, --description [desc]', 'Description', 'N/A'
+  .option '-e, --extended [ext]', 'Extended description'
+  .option '-r, --replace', 'Replace existing entry', no
+  .option '-s, --shared', 'Shared', no
+  .option '-t, --to-read', 'Tag to read later', no
+  .action action
+  .parse process.argv

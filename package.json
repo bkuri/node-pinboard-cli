@@ -1,6 +1,6 @@
 {
   "name": "pinboard",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Save stuff to pinboard from the command line",
   "main": "pinboard",
   "scripts": {
