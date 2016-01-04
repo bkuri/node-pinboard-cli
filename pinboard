@@ -4,20 +4,19 @@
 
 ###
   .command 'all [tags...]'
-  .command 'dates [tags...]', 'bookmarks separated by date'
   .command 'notes [id]', 'get one/all note(s)'
   .command 'private', 'Return private feed RSS key'
-  .command 'recent [tags...]', 'most recent bookmarks by tag'
   .command 'suggest <url>', 'suggest tags'
   .command 'tags <action> [params...]', 'tag related activities'
 ###
 
 
 (require 'commander')
-  .version '0.0.4'
-  .usage 'pin <action> [params...]'
-  .command 'add <url> [tags...]', 'add a bookmark'
+  .version '0.0.5'
+  .command 'add <url> <desc>', 'add a bookmark'
+  .command 'dates', 'bookmarks separated by date'
   .command 'delete <url>', 'delete a bookmark'
-  .command 'get <url> [tags...]', 'bookmarks of the day', isDefault: yes
+  .command 'get', 'get bookmark(s)'
+  .command 'recent', 'most recent bookmarks', isDefault: yes
   .command 'update', 'datetime of most recent action'
   .parse process.argv

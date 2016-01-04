@@ -2,31 +2,24 @@
 'use strict'
 
 
-_ = (require 'lodash')
 # chalk = (require 'chalk')
+command = (require 'commander')
 config = (require './config')
 # moment = (require 'moment')
 Pinboard = (require 'node-pinboard')
-pin = (require 'commander')
+pinboard = new Pinboard(config.token)
 
 
-action = (url, tags) ->
-  pinboard = Pinboard(config.token)
-
-  reply = (what) -> if what? and (what is yes) then 'yes' else 'no'
-
-  options =
-    url: url
-    description: pin.description
-    extended: pin.extended
-    tags: _.dropRight(tags).join ','
-    replace: (reply pin.replaced)
-    shared: (reply pin.shared)
-    toread: (reply pin.toRead)
-
+action = ->
   try
+    options =
+      dt: command.date
+      meta: if command.meta? and (command.meta is yes) then 'yes' else 'no'
+      tags: command.tags
+      url: command.url
+
     pinboard.get options, (body) ->
-      console.log "response: #{body}"
+      console.log (JSON.stringify body)
       process.exit no
 
   catch e
@@ -36,11 +29,13 @@ action = (url, tags) ->
   return
 
 
-pin
-  .option '-d, --description [desc]', 'Description', 'N/A'
-  .option '-e, --extended [ext]', 'Extended description'
-  .option '-r, --replace', 'Replace existing entry', no
-  .option '-s, --shared', 'Shared', no
-  .option '-t, --to-read', 'Tag to read later', no
+action() if (process.argv.length < 3)
+
+
+command
+  .option '-d, --date <date>', 'filter by date'
+  .option '-m, --meta', 'include a change detection signature in meta'
+  .option '-t, --tags <tags>', 'filter by < 4 tags (comma-separated)'
+  .option '-u, --url <url>', 'get a specific url'
   .action action
   .parse process.argv

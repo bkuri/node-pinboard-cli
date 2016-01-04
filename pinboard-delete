@@ -1,15 +1,17 @@
 #!/usr/bin/coffee
 'use strict'
 
+(process.exit yes) if (process.argv.length < 4)
 
-_ = (require 'lodash')
+
 # chalk = (require 'chalk')
 config = (require './config')
-# moment = (require 'moment')
 Pinboard = (require 'node-pinboard')
 
 
 (require 'commander')
+  .usage '<url>'
+
   .action (url) ->
     pinboard = new Pinboard(config.token)
 

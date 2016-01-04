@@ -1,0 +1,36 @@
+#!/usr/bin/coffee
+'use strict'
+
+
+# chalk = (require 'chalk')
+command = (require 'commander')
+config = (require './config')
+# moment = (require 'moment')
+Pinboard = (require 'node-pinboard')
+pinboard = new Pinboard(config.token)
+
+
+action = ->
+  try
+    options = switch
+      when command.tags? then tags: command.tags
+      else {}
+
+    pinboard.dates options, (res) ->
+      console.log (JSON.stringify res)
+      process.exit not (res.result_code? and (res.result_code is 'done'))
+
+  catch e
+    console.error e
+    process.exit yes
+
+  return
+
+
+action() if (process.argv.length < 3)
+
+
+command
+  .option '-t, --tags <tags>', 'filter by up to 3 tags (comma-separated)'
+  .action action
+  .parse process.argv

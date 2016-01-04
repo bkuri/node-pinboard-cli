@@ -1,30 +1,29 @@
 #!/usr/bin/coffee
 'use strict'
 
-
 _ = (require 'lodash')
 # chalk = (require 'chalk')
+command = (require 'commander')
 config = (require './config')
-# moment = (require 'moment')
+moment = (require 'moment')
 Pinboard = (require 'node-pinboard')
-pin = (require 'commander')
+pinboard = new Pinboard(config.token)
 
 
-add = (url, tags...) ->
-  pinboard = new Pinboard(config.token)
-
+action = (url, desc) ->
   reply = (what) -> if what? and (what is yes) then 'yes' else 'no'
 
-  bookmark =
-    url: url
-    description: pin.description
-    extended: pin.extended
-    tags: _.dropRight(tags).join ','
-    replace: (reply pin.replaced)
-    shared: (reply pin.shared)
-    toread: (reply pin.toRead)
-
   try
+    bookmark =
+      url: url
+      description: desc
+      extended: command.extended
+      tags: command.tags
+      dt: command.date
+      replace: (reply command.replaced)
+      shared: (reply command.shared)
+      toread: (reply command.toRead)
+
     pinboard.add bookmark, (res) ->
       process.exit not (res.result_code? and (res.result_code is 'done'))
 
@@ -35,11 +34,15 @@ add = (url, tags...) ->
   return
 
 
-pin
-  .option '-d, --description [desc]', 'Description', 'N/A'
+command
+  .usage '<url> <desc>'
+  .option '-d, --date <date>', 'Date', moment.format()
   .option '-e, --extended [ext]', 'Extended description'
-  .option '-r, --replace', 'Replace existing entry', no
-  .option '-s, --shared', 'Shared', no
-  .option '-t, --to-read', 'Tag to read later', no
-  .action add
+  .option '-R, --to-read', 'Tag to read later'
+  .option '-r, --replace', 'Replace existing entry'
+  .option '-s, --shared', 'Shared'
+  .option '-t, --tags <tags>', 'filter by up to 3 tags (comma-separated)'
+  .action action
   .parse process.argv
+
+console.log "args: #{command.args}"

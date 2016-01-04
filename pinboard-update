@@ -2,16 +2,19 @@
 'use strict'
 
 
-_ = (require 'lodash')
 # chalk = (require 'chalk')
 config = (require './config')
-# moment = (require 'moment')
 Pinboard = (require 'node-pinboard')
 
 
-(require 'commander')
-  .action ->
-    Pinboard(config.token).update()
-    return
+action = ->
+  Pinboard(config.token).update()
+  process.exit 0
 
+
+action() if (process.argv.length < 3)
+
+
+(require 'commander')
+  .action action
   .parse process.argv
