@@ -5,18 +5,18 @@
 ###
   .command 'all', 'all the bookmarks in your account'
   .command 'notes [id]', 'get one/all note(s)'
-  .command 'suggest <url>', 'suggest tags'
   .command 'tags <action> [params...]', 'tag related activities'
 ###
 
 
 (require 'commander')
-  .version '0.0.6'
+  .version '0.0.7'
   .command 'add <url> <desc>', 'add a bookmark'
   .command 'dates', 'bookmarks separated by date'
   .command 'delete <url>', 'delete a bookmark'
   .command 'get', 'get bookmark(s)'
   .command 'recent', 'most recent bookmarks', isDefault: yes
   .command 'secret', 'your secret feed\'s RSS key'
+  .command 'suggest <url>', 'suggest tags'
   .command 'update', 'datetime of most recent action'
   .parse process.argv

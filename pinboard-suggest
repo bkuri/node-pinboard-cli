@@ -1,0 +1,28 @@
+#!/usr/bin/coffee
+'use strict'
+
+(process.exit yes) if (process.argv.length < 3)
+
+
+# chalk = (require 'chalk')
+config = (require './config')
+Pinboard = (require 'node-pinboard')
+
+
+(require 'commander')
+  .usage '<url>'
+
+  .action (url) ->
+    pinboard = new Pinboard(config.token)
+
+    try
+      pinboard.suggest url, (body) ->
+        console.log (JSON.stringify body)
+
+    catch e
+      console.error e
+      process.exit yes
+
+    return
+
+  .parse process.argv
