@@ -1,7 +1,7 @@
 #!/usr/bin/coffee
 'use strict'
 
-(process.exit yes) if (process.argv.length < 4)
+(process.exit yes) if (process.argv.length < 3)
 
 
 # chalk = (require 'chalk')

@@ -10,7 +10,7 @@
 
 
 (require 'commander')
-  .version '0.0.7'
+  .version '0.0.8'
   .command 'add <url> <desc>', 'add a bookmark'
   .command 'dates', 'bookmarks separated by date'
   .command 'delete <url>', 'delete a bookmark'

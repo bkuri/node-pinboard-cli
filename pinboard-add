@@ -1,7 +1,6 @@
 #!/usr/bin/coffee
 'use strict'
 
-_ = (require 'lodash')
 # chalk = (require 'chalk')
 command = (require 'commander')
 config = (require './config')
@@ -36,7 +35,7 @@ action = (url, desc) ->
 
 command
   .usage '<url> <desc>'
-  .option '-d, --date <date>', 'Date', moment.format()
+  .option '-d, --date [date]', 'Date', moment().format()
   .option '-e, --extended [ext]', 'Extended description'
   .option '-R, --to-read', 'Tag to read later'
   .option '-r, --replace', 'Replace existing entry'
@@ -44,5 +43,3 @@ command
   .option '-t, --tags <tags>', 'filter by up to 3 tags (comma-separated)'
   .action action
   .parse process.argv
-
-console.log "args: #{command.args}"
