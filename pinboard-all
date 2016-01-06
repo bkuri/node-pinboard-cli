@@ -1,0 +1,46 @@
+#!/usr/bin/coffee
+'use strict'
+
+# chalk = (require 'chalk')
+command = (require 'commander')
+config = (require './config')
+moment = (require 'moment')
+Pinboard = (require 'node-pinboard')
+pinboard = new Pinboard(config.token)
+
+
+action = ->
+  try
+    options =
+      fromdt: command.fromDt
+      meta: command.meta
+      results: command.results
+      start: command.start
+      tag: command.tag
+      todt: command.toDt
+
+    pinboard.all options, (res) ->
+      console.log (JSON.stringify res)
+      process.exit no
+
+  catch e
+    console.error e
+    process.exit yes
+
+  return
+
+
+action() if (process.argv.length < 3)
+
+
+command
+  .option '-d, --date [date]', 'Date', moment().format()
+  .option '-e, --extended [ext]', 'Extended description'
+  .option '-F, --from-dt', 'bookmarks created after this time'
+  .option '-r, --results <max>', 'number of results to return', -1
+  .option '-s, --start <offset>', 'offset value', 0
+  .option '-m, --meta <int>', 'include a change detection signature for each bookmark'
+  .option '-t, --tags <tags>', 'filter by up to 3 tags (comma-separated)'
+  .option '-T, --to-dt', 'bookmarks created before this time'
+  .action action
+  .parse process.argv

@@ -1,6 +1,6 @@
 {
   "name": "nodejs-pinboard-cli",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Save stuff to pinboard from the command line",
   "main": "pinboard",
   "scripts": {
@@ -15,7 +15,6 @@
   "dependencies": {
     "chalk": "^1.1.1",
     "commander": "^2.9.0",
-    "lodash": "^3.10.1",
     "moment": "^2.10.6",
     "node-pinboard": "^0.1.1"
   },
