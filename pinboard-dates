@@ -5,7 +5,6 @@
 # chalk = (require 'chalk')
 command = (require 'commander')
 config = (require './config')
-# moment = (require 'moment')
 Pinboard = (require 'node-pinboard')
 pinboard = new Pinboard(config.token)
 

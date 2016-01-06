@@ -1,6 +1,6 @@
 {
   "name": "nodejs-pinboard-cli",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Save stuff to pinboard from the command line",
   "main": "pinboard",
   "scripts": {
