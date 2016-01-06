@@ -10,6 +10,7 @@ Pinboard = (require 'node-pinboard')
 
 
 (require 'commander')
+  .description 'Delete a bookmark.'
   .usage '<url>'
 
   .action (url) ->

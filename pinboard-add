@@ -34,6 +34,7 @@ action = (url, desc) ->
 
 
 command
+  .description 'Add a bookmark.'
   .usage '<url> <desc>'
   .option '-d, --date [date]', 'Date', moment().format()
   .option '-e, --extended [ext]', 'Extended description'

@@ -34,12 +34,11 @@ action() if (process.argv.length < 3)
 
 
 command
-  .option '-d, --date [date]', 'Date', moment().format()
-  .option '-e, --extended [ext]', 'Extended description'
+  .description 'Returns all bookmarks in the user\'s account.'
   .option '-F, --from-dt', 'bookmarks created after this time'
-  .option '-r, --results <max>', 'number of results to return', -1
-  .option '-s, --start <offset>', 'offset value', 0
   .option '-m, --meta <int>', 'include a change detection signature for each bookmark'
+  .option '-r, --results <int>', 'number of results to return', -1
+  .option '-s, --start <offset>', 'offset value', 0
   .option '-t, --tags <tags>', 'filter by up to 3 tags (comma-separated)'
   .option '-T, --to-dt', 'bookmarks created before this time'
   .action action

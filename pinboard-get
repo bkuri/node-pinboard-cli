@@ -32,6 +32,7 @@ action() if (process.argv.length < 3)
 
 
 command
+  .description 'Returns one or more posts on a single day matching the arguments. If no date or url is given, date of most recent bookmark will be used.'
   .option '-d, --date <date>', 'filter by date'
   .option '-m, --meta', 'include a change detection signature in meta'
   .option '-t, --tags <tags>', 'filter by < 4 tags (comma-separated)'

@@ -9,13 +9,15 @@
 
 
 (require 'commander')
-  .version '0.0.10'
+  .version '0.0.11'
+  .description 'Use pinboard.in from the command line.'
+  .usage '[action]'
   .command 'add <url> <desc>', 'add a bookmark'
   .command 'all', 'all the bookmarks in your account'
   .command 'dates', 'bookmarks separated by date'
   .command 'delete <url>', 'delete a bookmark'
   .command 'get', 'get bookmark(s)'
-  .command 'recent', 'most recent bookmarks', isDefault: yes
+  .command 'recent', 'most recent bookmarks (default action)', isDefault: yes
   .command 'secret', 'your secret feed\'s RSS key'
   .command 'suggest <url>', 'suggest tags'
   .command 'update', 'datetime of most recent action'

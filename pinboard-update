@@ -7,5 +7,15 @@ config = (require './config')
 Pinboard = (require 'node-pinboard')
 
 
-new Pinboard(config.token).update (body) ->
-  console.log (JSON.stringify body)
+action = ->
+  new Pinboard(config.token).update (body) ->
+    console.log (JSON.stringify body)
+
+
+action() if (process.argv.length < 3)
+
+
+(require 'commander')
+  .description 'Returns the most recent time a bookmark was added, updated or deleted. Use this before calling `all` to see if the data has changed since the last fetch.'
+  .action action
+  .parse process.argv

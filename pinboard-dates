@@ -30,6 +30,7 @@ action() if (process.argv.length < 3)
 
 
 command
+  .description 'Returns a list of dates with the number of posts at each date.'
   .option '-t, --tags <tags>', 'filter by up to 3 tags (comma-separated)'
   .action action
   .parse process.argv
