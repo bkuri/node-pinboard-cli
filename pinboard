@@ -1,7 +1,10 @@
 #!/usr/bin/coffee
 'use strict'
 
+config = (require 'config')
 
+
+# TODO missing commands:
 ###
   .command 'notes [id]', 'get one/all note(s)'
   .command 'tags <action> [params...]', 'tag related activities'
@@ -9,7 +12,7 @@
 
 
 (require 'commander')
-  .version '0.0.11'
+  .version (require './package').version + "-#{config.util.getEnv 'NODE_ENV'}"
   .description 'Use pinboard.in from the command line.'
   .usage '[action]'
   .command 'add <url> <desc>', 'add a bookmark'

@@ -5,7 +5,7 @@
 
 
 # chalk = (require 'chalk')
-config = (require './config')
+{token} = (require 'config')
 Pinboard = (require 'node-pinboard')
 
 
@@ -14,7 +14,7 @@ Pinboard = (require 'node-pinboard')
   .description 'Returns a list of popular tags and recommended tags for a given URL. Popular tags are tags used site-wide for the url; recommended tags are drawn from the user\'s own tags.'
 
   .action (url) ->
-    pinboard = new Pinboard(config.token)
+    pinboard = new Pinboard(token)
 
     try
       pinboard.suggest url, (body) ->

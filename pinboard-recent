@@ -1,12 +1,11 @@
 #!/usr/bin/coffee
 'use strict'
 
-
 # chalk = (require 'chalk')
 command = (require 'commander')
-config = (require './config')
+{token} = (require 'config')
 Pinboard = (require 'node-pinboard')
-pinboard = new Pinboard(config.token)
+pinboard = new Pinboard(token)
 
 
 action = ->
@@ -15,9 +14,9 @@ action = ->
       count: command.count
       tags: command.tags
 
-    pinboard.recent options, (res) ->
-      console.log (JSON.stringify res)
-      process.exit not (res.result_code? and (res.result_code is 'done'))
+    pinboard.recent options, (result) ->
+      console.log (JSON.stringify result)
+      process.exit not (result.result_code? and (result.result_code is 'done'))
 
   catch e
     console.error e

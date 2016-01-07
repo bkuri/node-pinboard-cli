@@ -3,10 +3,10 @@
 
 # chalk = (require 'chalk')
 command = (require 'commander')
-config = (require './config')
+{token} = (require 'config')
 moment = (require 'moment')
 Pinboard = (require 'node-pinboard')
-pinboard = new Pinboard(config.token)
+pinboard = new Pinboard(token)
 
 
 action = ->
@@ -19,8 +19,8 @@ action = ->
       tag: command.tag
       todt: command.toDt
 
-    pinboard.all options, (res) ->
-      console.log (JSON.stringify res)
+    pinboard.all options, (result) ->
+      console.log (JSON.stringify result)
       process.exit no
 
   catch e

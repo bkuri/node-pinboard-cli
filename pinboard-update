@@ -1,15 +1,22 @@
 #!/usr/bin/coffee
 'use strict'
 
-
 # chalk = (require 'chalk')
-config = (require './config')
+{token} = (require 'config')
 Pinboard = (require 'node-pinboard')
 
 
 action = ->
-  new Pinboard(config.token).update (body) ->
-    console.log (JSON.stringify body)
+  try
+    new Pinboard(token).update (result) ->
+      console.log (JSON.stringify result)
+      process.exit no
+
+  catch e
+    console.error e
+    process.exit yes
+
+  return
 
 
 action() if (process.argv.length < 3)

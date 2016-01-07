@@ -5,7 +5,7 @@
 
 
 # chalk = (require 'chalk')
-config = (require './config')
+{token} = (require 'config')
 Pinboard = (require 'node-pinboard')
 
 
@@ -14,11 +14,11 @@ Pinboard = (require 'node-pinboard')
   .usage '<url>'
 
   .action (url) ->
-    pinboard = new Pinboard(config.token)
+    pinboard = new Pinboard(token)
 
     try
-      pinboard.delete url, (res) ->
-        process.exit not (res.result_code? and (res.result_code is 'done'))
+      pinboard.delete url, (result) ->
+        process.exit not (result.result_code? and (result.result_code is 'done'))
 
     catch e
       console.error e

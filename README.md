@@ -1,11 +1,11 @@
-# nodejs-pinboard-cli
-
-**Use pinboard.in from the command line.**
+*node-pinboard-cli*
+**Use [pinboard.in](https://pinboard.in) from the command line.**
+***Almost feature complete!***
 
 Uses [node-pinboard](https://npmjs.org/package/node-pinboard) and [commanderjs](http://tj.github.io/commander.js/).
 
 ```
-$ pinboard help
+$> pinboard help
 
   Usage: pinboard [action]
 

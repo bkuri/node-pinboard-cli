@@ -3,10 +3,10 @@
 
 # chalk = (require 'chalk')
 command = (require 'commander')
-config = (require './config')
+{token} = (require 'config')
 moment = (require 'moment')
 Pinboard = (require 'node-pinboard')
-pinboard = new Pinboard(config.token)
+pinboard = new Pinboard(token)
 
 
 action = (url, desc) ->
@@ -23,8 +23,8 @@ action = (url, desc) ->
       shared: (reply command.shared)
       toread: (reply command.toRead)
 
-    pinboard.add bookmark, (res) ->
-      process.exit not (res.result_code? and (res.result_code is 'done'))
+    pinboard.add bookmark, (result) ->
+      process.exit not (result.result_code? and (result.result_code is 'done'))
 
   catch e
     console.error e

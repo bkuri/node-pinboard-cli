@@ -1,12 +1,11 @@
 #!/usr/bin/coffee
 'use strict'
 
-
 # chalk = (require 'chalk')
 command = (require 'commander')
-config = (require './config')
+{token} = (require 'config')
 Pinboard = (require 'node-pinboard')
-pinboard = new Pinboard(config.token)
+pinboard = new Pinboard(token)
 
 
 action = ->
@@ -17,8 +16,8 @@ action = ->
       tags: command.tags
       url: command.url
 
-    pinboard.get options, (body) ->
-      console.log (JSON.stringify body)
+    pinboard.get options, (result) ->
+      console.log (JSON.stringify result)
       process.exit no
 
   catch e
