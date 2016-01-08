@@ -1,22 +1,19 @@
 #!/usr/bin/coffee
 'use strict'
 
+
 (process.exit yes) if (process.argv.length < 3)
-{command, render, verify} = (require './tools')
+{argv, define, pinboard, render, verify} = (require './tools')
 verify()
 
-Pinboard = (require 'node-pinboard')
-
-
-command 'Returns a list of popular tags and recommended tags for a given URL. Popular tags are tags used site-wide for the url; recommended tags are drawn from the user\'s own tags.'
-  .usage '<url>'
-  
+define 'Returns a list of popular tags and recommended tags for a given URL. Popular tags are tags used site-wide for the url; recommended tags are drawn from the user\'s own tags.'
   .action (url) ->
     try
-      new Pinboard(process.env.PINBOARD_TOKEN).suggest url, (result) ->
+      pinboard().suggest url, (result) ->
         render result, 'tags'
 
     catch e
       render e, 'error'
 
-  .parse process.argv
+  .usage '<url>'
+  .parse argv()

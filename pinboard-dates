@@ -1,16 +1,11 @@
 #!/usr/bin/coffee
 'use strict'
 
-{command, render, verify} = (require './tools')
+
+{argv, define, pinboard, render, verify} = (require './tools')
 verify()
 
-argv = process.argv.concat()
-Pinboard = (require 'node-pinboard')
-
-
-argv.push ''
-
-command 'Returns a list of dates with the number of posts at each date.'
+command = define 'Returns a list of dates with the number of posts at each date.'
   .option '-t, --tags <tags>', 'filter by up to 3 tags (comma-separated)'
 
   .action ->
@@ -19,10 +14,10 @@ command 'Returns a list of dates with the number of posts at each date.'
         when command.tags? then tags: command.tags
         else {}
 
-      new Pinboard(process.env.PINBOARD_TOKEN).dates options, (result) ->
+      pinboard().dates options, (result) ->
         render result, 'date'
 
     catch e
       render e, 'error'
 
-  .parse argv
+  .parse argv()

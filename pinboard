@@ -2,7 +2,7 @@
 'use strict'
 
 
-# TODO missing commands:
+# TODO missing_commands:
 ###
   .command 'notes [id]', 'get one/all note(s)'
   .command 'tags <action> [params...]', 'tag related activities'
@@ -11,7 +11,7 @@
 
 (require 'commander')
   .version (require './package').version + "-#{process.env.NODE_ENV}"
-  .description 'Use pinboard.in from the command line.'
+  .description 'Use pinboard.in from the define line.'
   .usage '[action]'
   .command 'add <url> <desc>', 'add a bookmark'
   .command 'all', 'all the bookmarks in your account'

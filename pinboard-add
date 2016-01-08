@@ -1,16 +1,12 @@
 #!/usr/bin/coffee
 'use strict'
 
-{command, render, verify} = (require './tools')
+
+{argv, define, pinboard, render, verbose, verify} = (require './tools')
 verify()
 
-moment = (require 'moment')
-Pinboard = (require 'node-pinboard')
-
-
-command 'Add a bookmark.'
-  .usage '<url> <desc>'
-  .option '-d, --date [date]', 'Date', moment().format()
+command = define 'Add a bookmark.'
+  .option '-d, --date [date]', 'Date', (require 'moment')().format()
   .option '-e, --extended [ext]', 'Extended description'
   .option '-r, --replace', 'Replace existing entry'
   .option '-R, --to-read', 'Tag to read later'
@@ -31,10 +27,11 @@ command 'Add a bookmark.'
         shared: (reply command.shared)
         toread: (reply command.toRead)
 
-      new Pinboard(process.env.PINBOARD_TOKEN).add bookmark, (result) ->
+      pinboard().add bookmark, (result) ->
         (render result, 'result_code') if (command.verbose or process.env.PINBOARD_VERBOSE)
 
     catch e
       render e, 'error'
 
-  .parse process.argv
+  .usage '<url> <desc>'
+  .parse argv()

@@ -1,11 +1,22 @@
 'use strict'
 
 module.exports =
-  command: (description) ->
+  argv: ->
+    argv = process.argv.concat()
+
+    argv.push ''
+    return argv
+
+
+  define: (description) ->
     (require 'commander')
       .description description
       .option '-f, --format [color,json]', 'display all errors', 'color'
       .option '-v, --verbose', 'display all errors'
+
+
+  pinboard: ->
+    new (require 'node-pinboard')(process.env.PINBOARD_TOKEN)
 
 
   render: (data, template='result') ->
@@ -53,6 +64,6 @@ module.exports =
     try
       notEqual process.env.PINBOARD_TOKEN, 'user:XXXXXXXXXXXXXXXXXXXX'
 
-    catch e
+    catch
       console.error 'PINBOARD_TOKEN env variable not found. Enter `pinboard help` for more information.'
       process.exit yes

@@ -1,16 +1,11 @@
 #!/usr/bin/coffee
 'use strict'
 
-{command, render, verify} = (require './tools')
+
+{argv, define, pinboard, render, verify} = (require './tools')
 verify()
 
-argv = process.argv.concat()
-Pinboard = (require 'node-pinboard')
-
-
-argv.push ''
-
-command 'Returns all bookmarks in the user\'s account.'
+command = define 'Returns all bookmarks in the user\'s account.'
   .option '-F, --from-dt', 'bookmarks created after this time'
   .option '-m, --meta <int>', 'include a change detection signature for each bookmark'
   .option '-r, --results <int>', 'number of results to return', -1
@@ -28,10 +23,10 @@ command 'Returns all bookmarks in the user\'s account.'
         tag: command.tag
         todt: command.toDt
 
-      new Pinboard(process.env.PINBOARD_TOKEN).all options, (result) ->
+      pinboard().all options, (result) ->
         render result, 'bookmark'
 
     catch e
       render e, 'error'
 
-  .parse argv
+  .parse argv()

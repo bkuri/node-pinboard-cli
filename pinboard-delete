@@ -1,22 +1,20 @@
 #!/usr/bin/coffee
 'use strict'
 
+
 (process.exit yes) if (process.argv.length < 3)
-{command, render, verify} = (require './tools')
+
+{argv, define, pinboard, render, verbose, verify} = (require './tools')
 verify()
 
-Pinboard = (require 'node-pinboard')
-
-
-command 'Delete a bookmark.'
-  .usage '<url>'
-
+command = define 'Delete a bookmark.'
   .action (url) ->
     try
-      new Pinboard(process.env.PINBOARD_TOKEN).delete url, (result) ->
+      pinboard().delete url, (result) ->
         (render result, 'result_code') if (command.verbose or process.env.PINBOARD_VERBOSE)
 
     catch e
       render e, 'error'
 
-  .parse process.argv
+  .usage '<url>'
+  .parse argv()
