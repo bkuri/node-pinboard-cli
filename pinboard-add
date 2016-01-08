@@ -2,16 +2,16 @@
 'use strict'
 
 
-{argv, define, one, pinboard, respond, verify, yesno} = (require './tools')
+{PINBOARD_FORMAT, PINBOARD_VERBOSE} = process.env
+{argv, define, format, one, pinboard, yesno} = require('./tools')
 
-verify()
 
-command = (define 'Add a bookmark.')
+add = define('Add a bookmark.')
 
-command
-  .option '-d --date [date]', 'Date', (require 'moment')().format()
+add
+  .option '-d --date [date]', 'Date', require('moment')().format()
   .option '-e --extended [ext]', 'Extended description'
-  .option '-f --format [fmt]', 'output format', /^(color|json)$/i, 'color'
+  .option '-f --format [fmt]', 'output format', /^(color|json)$/i, PINBOARD_FORMAT
   .option '-r --replace', 'Replace existing entry'
   .option '-R --to-read', 'Tag to read later'
   .option '-s --shared', 'Shared'
@@ -19,25 +19,25 @@ command
   .option '-v --verbose', 'display all output'
 
   .action  (url, description) ->
-    format = one(command.format, process.env.PINBOARD_FORMAT)
+    respond = format one(add.format, PINBOARD_FORMAT)
 
     try
       bookmark =
         description: description
-        dt: command.date
-        extended: command.extended
-        replace: yesno(command.replaced)
-        shared: yesno(command.shared)
-        tags: command.tags
-        toread: yesno(command.toRead)
+        dt: add.date
+        extended: add.extended
+        replace: yesno(add.replaced)
+        shared: yesno(add.shared)
+        tags: add.tags
+        toread: yesno(add.toRead)
         url: url
 
       pinboard().add bookmark, (result) ->
-        return if one(command.verbose, process.env.PINBOARD_VERBOSE) is no
-        respond result, format, 'result_code'
+        return if one(add.verbose, PINBOARD_VERBOSE) is no
+        respond result, 'result_code'
 
-    catch e
-      respond e, format, 'error'
+    catch error
+      respond error, 'error'
 
   .usage '<url> <description>'
   .parse argv()

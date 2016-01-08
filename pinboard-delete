@@ -2,27 +2,29 @@
 'use strict'
 
 
-{argv, define, one, pinboard, respond, verify} = (require './tools')
+(process.exit yes) if (process.argv.length < 3)
 
-(respond 'Error: You must specify a url.', 'error') if (process.argv.length < 3)
-verify()
 
-command = (define 'Delete a bookmark.')
+{PINBOARD_FORMAT, PINBOARD_VERBOSE} = process.env
+{argv, define, format, one, pinboard} = require('./tools')
 
-command
-  .option '-f --format [fmt]', 'output format', /^(color|json)$/i, 'color'
+
+del = define('Delete a bookmark.')
+
+del
+  .option '-f --format [fmt]', 'output format', /^(color|json)$/i, PINBOARD_FORMAT
   .option '-v --verbose', 'display all output'
 
   .action (url) ->
-    format = one(command.format, process.env.PINBOARD_FORMAT)
+    respond = format one(del.format, PINBOARD_FORMAT)
 
     try
       pinboard().delete url, (result) ->
-        return if (command.verbose or process.env.PINBOARD_VERBOSE)
-        respond result, format, 'result_code'
+        return if (del.verbose or PINBOARD_VERBOSE)
+        respond result, 'result_code'
 
-    catch e
-      respond e, format, 'error'
+    catch error
+      respond error, 'error'
 
   .usage '<url>'
   .parse argv()

@@ -2,28 +2,28 @@
 'use strict'
 
 
-{argv, define, one, pinboard, respond, verify} = (require './tools')
+{PINBOARD_FORMAT} = process.env
+{argv, define, format, one, pinboard} = require('./tools')
 
-verify()
 
-command = (define 'Returns a list of dates with the number of posts at each date.')
+dates = define('Returns a list of dates with the number of posts at each date.')
 
-command
-  .option '-f --format [fmt]', 'output format', /^(color|json)$/i, 'color'
+dates
+  .option '-f --format [fmt]', 'output format', /^(color|json)$/i, PINBOARD_FORMAT
   .option '-t --tags <tags>', 'filter by up to 3 tags (comma-separated)'
 
   .action ->
-    format = one(command.format, process.env.PINBOARD_FORMAT)
+    respond = format one(dates.format, PINBOARD_FORMAT)
 
     try
       options = switch
-        when command.tags? then tags: command.tags
+        when dates.tags? then tags: dates.tags
         else {}
 
       pinboard().dates options, (result) ->
-        respond result, format, 'date'
+        respond result, 'date'
 
-    catch e
-      respond e, format, 'error'
+    catch error
+      respond error, 'error'
 
   .parse argv()

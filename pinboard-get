@@ -2,33 +2,33 @@
 'use strict'
 
 
-{argv, define, one, pinboard, respond, verify, yesno} = (require './tools')
+{PINBOARD_FORMAT} = process.env
+{argv, define, format, one, pinboard, yesno} = require('./tools')
 
-verify()
 
-command = (define 'Returns one or more posts on a single day matching the arguments. If no date or url is given, date of most recent bookmark will be used.')
+get = define('Returns one or more posts on a single day matching the arguments. If no date or url is given, date of most recent bookmark will be used.')
 
-command
+get
   .option '-d --date <date>', 'filter by date'
-  .option '-f --format [fmt]', 'output format', /^(color|json)$/i, 'color'
+  .option '-f --format [fmt]', 'output format', /^(color|json)$/i, PINBOARD_FORMAT
   .option '-m --meta', 'include a change detection signature in meta'
   .option '-t --tags <tags>', 'filter by < 4 tags (comma-separated)'
   .option '-u --url <url>', 'get a specific url'
 
   .action ->
-    format = one(command.format, process.env.PINBOARD_FORMAT)
+    respond = format one(get.format, PINBOARD_FORMAT)
 
     try
       options =
-        dt: command.date
-        meta: yesno(command.meta)
-        tags: command.tags
-        url: command.url
+        dt: get.date
+        meta: yesno(get.meta)
+        tags: get.tags
+        url: get.url
 
       pinboard().get options, (result) ->
-        respond result, format, 'bookmark'
+        respond result, 'bookmark'
 
-    catch e
-      respond e, format, 'error'
+    catch error
+      respond error, 'error'
 
   .parse argv()

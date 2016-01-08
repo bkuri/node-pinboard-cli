@@ -2,29 +2,29 @@
 'use strict'
 
 
-{argv, define, one, pinboard, respond, verify} = (require './tools')
+{PINBOARD_FORMAT} = process.env
+{argv, define, format, one, pinboard} = require('./tools')
 
-verify()
 
-command = (define 'Returns a list of the user\'s most recent posts, filtered by tag.')
+recent = define('Returns a list of the user\'s most recent posts, filtered by tag.')
 
-command
+recent
   .option '-c --count [int]', 'number of results to return. Default is 15, max is 100', 15
-  .option '-f --format [fmt]', 'output format', /^(color|json)$/i, 'color'
+  .option '-f --format [fmt]', 'output format', /^(color|json)$/i, PINBOARD_FORMAT
   .option '-t --tags <tags>', 'filter by up to 3 tags (comma-separated)'
 
   .action ->
-    format = one(command.format, process.env.PINBOARD_FORMAT)
+    respond = format one(recent.format, PINBOARD_FORMAT)
 
     try
       options =
-        count: command.count
-        tags: command.tags
+        count: recent.count
+        tags: recent.tags
 
       pinboard().recent options, (result) ->
-        respond result, format, 'bookmark'
+        respond result, 'bookmark'
 
-    catch e
-      respond e, format, 'error'
+    catch error
+      respond error, 'error'
 
   .parse argv()
