@@ -6,7 +6,7 @@
 
 verify()
 
-command = define 'Add a bookmark.'
+command = (define 'Add a bookmark.')
   .option '-d, --date [date]', 'Date', (require 'moment')().format()
   .option '-e, --extended [ext]', 'Extended description'
   .option '-r, --replace', 'Replace existing entry'
@@ -14,6 +14,7 @@ command = define 'Add a bookmark.'
   .option '-s, --shared', 'Shared'
   .option '-t, --tags <tags>', 'filter by up to 3 tags (comma-separated)'
 
+command
   .action  (url, desc) ->
     reply = (what) -> if what? and (what is yes) then 'yes' else 'no'
 

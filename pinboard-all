@@ -6,7 +6,7 @@
 
 verify()
 
-command = define 'Returns all bookmarks in the user\'s account.'
+command = (define 'Returns all bookmarks in the user\'s account.')
   .option '-F, --from-dt', 'bookmarks created after this time'
   .option '-m, --meta <int>', 'include a change detection signature for each bookmark'
   .option '-r, --results <int>', 'number of results to return', -1
@@ -14,6 +14,7 @@ command = define 'Returns all bookmarks in the user\'s account.'
   .option '-t, --tags <tags>', 'filter by up to 3 tags (comma-separated)'
   .option '-T, --to-dt', 'bookmarks created before this time'
 
+command
   .action ->
     try
       options =

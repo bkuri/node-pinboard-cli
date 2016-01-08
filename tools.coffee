@@ -1,5 +1,6 @@
 'use strict'
 
+
 module.exports =
   argv: ->
     argv = process.argv.concat()
@@ -10,8 +11,9 @@ module.exports =
 
   define: (description) ->
     (require 'commander')
+      .version (require './package').version + "-#{process.env.NODE_ENV}"
       .description description
-      .option '-f, --format [color,json]', 'display all errors', 'color'
+      .option '-f, --format <fmt>', 'output format', /^(color|json)$/i, 'color'
       .option '-v, --verbose', 'display all errors'
 
 

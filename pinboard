@@ -2,6 +2,9 @@
 'use strict'
 
 
+{define} = (require './tools')
+
+
 # TODO missing_commands:
 ###
   .command 'notes [id]', 'get one/all note(s)'
@@ -9,10 +12,7 @@
 ###
 
 
-(require 'commander')
-  .version (require './package').version + "-#{process.env.NODE_ENV}"
-  .description 'Use pinboard.in from the define line.'
-  .usage '[action]'
+define 'Use pinboard.in from the command line.'
   .command 'add <url> <desc>', 'add a bookmark'
   .command 'all', 'all the bookmarks in your account'
   .command 'dates', 'bookmarks separated by date'

@@ -8,7 +8,9 @@
 
 verify()
 
-command = define 'Delete a bookmark.'
+command = (define 'Delete a bookmark.')
+
+command
   .action (url) ->
     try
       pinboard().delete url, (result) ->

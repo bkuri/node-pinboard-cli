@@ -6,14 +6,17 @@
 
 verify()
 
-command = define 'Returns the most recent time a bookmark was added, updated or deleted. Use this before calling `all` to see if the data has changed since the last fetch.'
+command = (define 'Returns the most recent time a bookmark was added, updated or deleted. Use this before calling `all` to see if the data has changed since the last fetch.')
+
+command
   .action ->
     try
       pinboard().update (result) ->
         return unless (command.verbose or process.env.PINBOARD_VERBOSE)
 
         if process.env.PINBOARD_FORMAT is 'color'
-          result.update_time = "Last updated #{(require 'moment')(result.update_time).fromNow()}"
+          time = (require 'moment')(result.update_time).fromNow()
+          result.update_time = "Last updated #{time}."
 
         render result, 'update_time'
 

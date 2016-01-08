@@ -8,7 +8,7 @@
 
 verify()
 
-define 'Returns a list of popular tags and recommended tags for a given URL. Popular tags are tags used site-wide for the url; recommended tags are drawn from the user\'s own tags.'
+(define 'Returns a list of popular tags and recommended tags for a given URL. Popular tags are tags used site-wide for the url; recommended tags are drawn from the user\'s own tags.')
   .action (url) ->
     try
       pinboard().suggest url, (result) ->
