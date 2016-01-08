@@ -3,6 +3,7 @@
 
 
 {argv, define, pinboard, render, verify} = (require './tools')
+
 verify()
 
 command = define 'Returns a list of dates with the number of posts at each date.'

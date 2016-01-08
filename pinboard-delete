@@ -5,6 +5,7 @@
 (process.exit yes) if (process.argv.length < 3)
 
 {argv, define, pinboard, render, verbose, verify} = (require './tools')
+
 verify()
 
 command = define 'Delete a bookmark.'

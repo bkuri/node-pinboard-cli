@@ -3,6 +3,7 @@
 
 
 {argv, define, pinboard, render, verify} = (require './tools')
+
 verify()
 
 command = define 'Returns a list of the user\'s most recent posts, filtered by tag.'

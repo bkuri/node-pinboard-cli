@@ -3,6 +3,7 @@
 
 
 {argv, define, pinboard, render, verify} = (require './tools')
+
 verify()
 
 command = define 'Returns all bookmarks in the user\'s account.'

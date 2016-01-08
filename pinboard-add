@@ -3,6 +3,7 @@
 
 
 {argv, define, pinboard, render, verbose, verify} = (require './tools')
+
 verify()
 
 command = define 'Add a bookmark.'
