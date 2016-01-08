@@ -44,8 +44,6 @@ After that you're ready to start using pinboard in the command line! Most comman
 
   Options:
 
-    -h, --help          output usage information
-    -V, --version       output the version number
-    -f, --format <fmt>  output format
-    -v, --verbose       display all errors
+    -h, --help     output usage information
+    -V, --version  output the version number
 ```
