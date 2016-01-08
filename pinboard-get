@@ -1,11 +1,12 @@
 #!/usr/bin/coffee
 'use strict'
 
-# chalk = (require 'chalk')
+{render, verify} = (require './tools')
+verify()
+
+
 command = (require 'commander')
-{token} = (require 'config')
 Pinboard = (require 'node-pinboard')
-pinboard = new Pinboard(token)
 
 
 action = ->
@@ -16,25 +17,24 @@ action = ->
       tags: command.tags
       url: command.url
 
-    pinboard.get options, (result) ->
-      console.log (JSON.stringify result)
-      process.exit no
+    new Pinboard(process.env.PINBOARD_TOKEN).get options, (result) ->
+      render result, 'bookmark'
 
   catch e
-    console.error e
-    process.exit yes
-
-  return
+    render e, 'error'
 
 
-action() if (process.argv.length < 3)
+argv = process.argv.concat()
+argv.push ''
 
 
 command
   .description 'Returns one or more posts on a single day matching the arguments. If no date or url is given, date of most recent bookmark will be used.'
   .option '-d, --date <date>', 'filter by date'
+  .option '-f, --format [color,json]', 'display all errors', 'color'
   .option '-m, --meta', 'include a change detection signature in meta'
   .option '-t, --tags <tags>', 'filter by < 4 tags (comma-separated)'
   .option '-u, --url <url>', 'get a specific url'
+  .option '-v, --verbose', 'display all errors'
   .action action
-  .parse process.argv
+  .parse argv

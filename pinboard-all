@@ -1,12 +1,12 @@
 #!/usr/bin/coffee
 'use strict'
 
-# chalk = (require 'chalk')
+{render, verify} = (require './tools')
+verify()
+
+
 command = (require 'commander')
-{token} = (require 'config')
-moment = (require 'moment')
 Pinboard = (require 'node-pinboard')
-pinboard = new Pinboard(token)
 
 
 action = ->
@@ -19,27 +19,26 @@ action = ->
       tag: command.tag
       todt: command.toDt
 
-    pinboard.all options, (result) ->
-      console.log (JSON.stringify result)
-      process.exit no
+    new Pinboard(process.env.PINBOARD_TOKEN).all options, (result) ->
+      render result, 'bookmark'
 
   catch e
-    console.error e
-    process.exit yes
-
-  return
+    render e, 'error'
 
 
-action() if (process.argv.length < 3)
+argv = process.argv.concat()
+argv.push ''
 
 
 command
   .description 'Returns all bookmarks in the user\'s account.'
+  .option '-f, --format [color,json]', 'display all errors', 'color'
   .option '-F, --from-dt', 'bookmarks created after this time'
   .option '-m, --meta <int>', 'include a change detection signature for each bookmark'
   .option '-r, --results <int>', 'number of results to return', -1
   .option '-s, --start <offset>', 'offset value', 0
   .option '-t, --tags <tags>', 'filter by up to 3 tags (comma-separated)'
   .option '-T, --to-dt', 'bookmarks created before this time'
+  .option '-v, --verbose', 'display all errors'
   .action action
-  .parse process.argv
+  .parse argv

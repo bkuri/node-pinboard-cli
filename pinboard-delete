@@ -2,28 +2,26 @@
 'use strict'
 
 (process.exit yes) if (process.argv.length < 3)
+{render, verify} = (require './tools')
+verify()
 
 
-# chalk = (require 'chalk')
-{token} = (require 'config')
+command = (require 'commander')
 Pinboard = (require 'node-pinboard')
 
 
-(require 'commander')
+command
   .description 'Delete a bookmark.'
   .usage '<url>'
 
   .action (url) ->
-    pinboard = new Pinboard(token)
-
     try
-      pinboard.delete url, (result) ->
-        process.exit not (result.result_code? and (result.result_code is 'done'))
+      new Pinboard(process.env.PINBOARD_TOKEN).delete url, (result) ->
+        (render result) if (command.verbose or process.env.PINBOARD_VERBOSE)
 
     catch e
-      console.error e
-      process.exit yes
+      render e, 'error'
 
-    return
-
+  .option '-f, --format [color,json]', 'display all errors', 'color'
+  .option '-v, --verbose', 'display all errors'
   .parse process.argv

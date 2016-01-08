@@ -2,10 +2,10 @@
 'use strict'
 
 (process.exit yes) if (process.argv.length < 3)
+{render, verify} = (require './tools')
+verify()
 
 
-# chalk = (require 'chalk')
-{token} = (require 'config')
 Pinboard = (require 'node-pinboard')
 
 
@@ -14,16 +14,13 @@ Pinboard = (require 'node-pinboard')
   .description 'Returns a list of popular tags and recommended tags for a given URL. Popular tags are tags used site-wide for the url; recommended tags are drawn from the user\'s own tags.'
 
   .action (url) ->
-    pinboard = new Pinboard(token)
-
     try
-      pinboard.suggest url, (body) ->
-        console.log (JSON.stringify body)
+      new Pinboard(process.env.PINBOARD_TOKEN).suggest url, (result) ->
+        render result, 'tags'
 
     catch e
-      console.error e
-      process.exit yes
+      render e, 'error'
 
-    return
-
+  .option '-f, --format [color,json]', 'display all errors', 'color'
+  .option '-v, --verbose', 'display all errors'
   .parse process.argv

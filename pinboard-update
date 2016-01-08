@@ -1,28 +1,30 @@
 #!/usr/bin/coffee
 'use strict'
 
-# chalk = (require 'chalk')
-{token} = (require 'config')
+{render, verify} = (require './tools')
+verify()
+
+
+command = (require 'commander')
 Pinboard = (require 'node-pinboard')
 
 
 action = ->
   try
-    new Pinboard(token).update (result) ->
-      console.log (JSON.stringify result)
-      process.exit no
+    new Pinboard(process.env.PINBOARD_TOKEN).update (result) ->
+      (render result, 'update_time') if (command.verbose or process.env.PINBOARD_VERBOSE)
 
   catch e
-    console.error e
-    process.exit yes
-
-  return
+    render e, 'error'
 
 
-action() if (process.argv.length < 3)
+argv = process.argv.concat()
+argv.push ''
 
 
-(require 'commander')
+command
   .description 'Returns the most recent time a bookmark was added, updated or deleted. Use this before calling `all` to see if the data has changed since the last fetch.'
+  .option '-f, --format [color,json]', 'display all errors', 'color'
+  .option '-v, --verbose', 'display all errors'
   .action action
-  .parse process.argv
+  .parse argv

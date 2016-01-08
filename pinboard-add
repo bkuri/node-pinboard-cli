@@ -1,12 +1,13 @@
 #!/usr/bin/coffee
 'use strict'
 
-# chalk = (require 'chalk')
+{render, verify} = (require './tools')
+verify()
+
+
 command = (require 'commander')
-{token} = (require 'config')
 moment = (require 'moment')
 Pinboard = (require 'node-pinboard')
-pinboard = new Pinboard(token)
 
 
 action = (url, desc) ->
@@ -23,14 +24,11 @@ action = (url, desc) ->
       shared: (reply command.shared)
       toread: (reply command.toRead)
 
-    pinboard.add bookmark, (result) ->
-      process.exit not (result.result_code? and (result.result_code is 'done'))
+    new Pinboard(process.env.PINBOARD_TOKEN).add bookmark, (result) ->
+      (render result, command.format) if (command.verbose or process.env.PINBOARD_VERBOSE)
 
   catch e
-    console.error e
-    process.exit yes
-
-  return
+    render e, 'error'
 
 
 command
@@ -38,9 +36,11 @@ command
   .usage '<url> <desc>'
   .option '-d, --date [date]', 'Date', moment().format()
   .option '-e, --extended [ext]', 'Extended description'
-  .option '-R, --to-read', 'Tag to read later'
+  .option '-f, --format [color,json]', 'display all errors', 'color'
   .option '-r, --replace', 'Replace existing entry'
+  .option '-R, --to-read', 'Tag to read later'
   .option '-s, --shared', 'Shared'
   .option '-t, --tags <tags>', 'filter by up to 3 tags (comma-separated)'
+  .option '-v, --verbose', 'display all errors'
   .action action
   .parse process.argv

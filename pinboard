@@ -1,8 +1,6 @@
 #!/usr/bin/coffee
 'use strict'
 
-config = (require 'config')
-
 
 # TODO missing commands:
 ###
@@ -12,7 +10,7 @@ config = (require 'config')
 
 
 (require 'commander')
-  .version (require './package').version + "-#{config.util.getEnv 'NODE_ENV'}"
+  .version (require './package').version + "-#{process.env.NODE_ENV}"
   .description 'Use pinboard.in from the command line.'
   .usage '[action]'
   .command 'add <url> <desc>', 'add a bookmark'
@@ -20,7 +18,7 @@ config = (require 'config')
   .command 'dates', 'bookmarks separated by date'
   .command 'delete <url>', 'delete a bookmark'
   .command 'get', 'get bookmark(s)'
-  .command 'recent', 'most recent bookmarks (default action)', isDefault: yes
+  .command 'recent', 'most recent bookmarks'
   .command 'secret', 'your secret feed\'s RSS key'
   .command 'suggest <url>', 'suggest tags'
   .command 'update', 'datetime of most recent action'
