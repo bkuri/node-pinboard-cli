@@ -12,7 +12,7 @@
 ###
 
 
-define 'Use pinboard.in from the command line.'
+(define 'Use pinboard.in from the command line.')
   .command 'add <url> <desc>', 'add a bookmark'
   .command 'all', 'all the bookmarks in your account'
   .command 'dates', 'bookmarks separated by date'

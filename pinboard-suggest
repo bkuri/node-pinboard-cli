@@ -2,10 +2,9 @@
 'use strict'
 
 
-(process.exit yes) if (process.argv.length < 3)
-
 {argv, define, pinboard, render, verify} = (require './tools')
 
+(render 'Error: You must specify a url.', 'error') if (process.argv.length < 3)
 verify()
 
 (define 'Returns a list of popular tags and recommended tags for a given URL. Popular tags are tags used site-wide for the url; recommended tags are drawn from the user\'s own tags.')

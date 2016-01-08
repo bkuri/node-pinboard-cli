@@ -1,6 +1,6 @@
 {
   "name": "node-pinboard-cli",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Use pinboard.in from the command line.",
   "main": "pinboard",
   "scripts": {

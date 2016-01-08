@@ -2,10 +2,9 @@
 'use strict'
 
 
-(process.exit yes) if (process.argv.length < 3)
-
 {argv, define, pinboard, render, verbose, verify} = (require './tools')
 
+(render 'Error: You must specify a url.', 'error') if (process.argv.length < 3)
 verify()
 
 command = (define 'Delete a bookmark.')
