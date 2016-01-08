@@ -11,7 +11,7 @@ module.exports =
 
   define: (description) ->
     (require 'commander')
-      .version (require './package').version + "-#{process.env.NODE_ENV}"
+      .version (require './package').version
       .description description
       .option '-f, --format <fmt>', 'output format', /^(color|json)$/i, 'color'
       .option '-v, --verbose', 'display all errors'

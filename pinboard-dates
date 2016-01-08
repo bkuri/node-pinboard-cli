@@ -7,9 +7,10 @@
 verify()
 
 command = (define 'Returns a list of dates with the number of posts at each date.')
-  .option '-t, --tags <tags>', 'filter by up to 3 tags (comma-separated)'
 
 command
+  .option '-t, --tags <tags>', 'filter by up to 3 tags (comma-separated)'
+
   .action ->
     try
       options = switch
