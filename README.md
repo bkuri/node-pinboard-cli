@@ -1,11 +1,12 @@
-*node-pinboard-cli*
-**Use [pinboard.in](https://pinboard.in) from the command line.**
-***Almost feature complete!***
+# node-pinboard-cli
+## Use [pinboard.in](https://pinboard.in) from the command line.
+### Almost feature complete!
 
 Uses [node-pinboard](https://npmjs.org/package/node-pinboard) and [commanderjs](http://tj.github.io/commander.js/).
 
-**Setup:**
-You must specify a valid pinboard api token to use this tool. You can [find it here](https://pinboard.in/settings/password) after logging in.
+
+## Setup:
+You must specify a valid pinboard api token to use this tool. You can [find it here](https://pinboard.in/settings/password) after logging in to your pinboard account.
 
 Simply copy the token and paste it as an environment variable with the name `PINBOARD_TOKEN`. In Linux and OSX it looks like this:
 ```
@@ -18,9 +19,10 @@ export PINBOARD_FORMAT=json
 export PINBOARD_VERBOSE=true
 ```
 
-After that you're ready to start using.
+After that you're ready to start using pinboard in the command line! Most commands are available, but a few more are coming soon (namely note and tag handling is missing).
 
-**Usage:**
+
+## Usage:
 ```
 $> pinboard help
 
