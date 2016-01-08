@@ -10,13 +10,13 @@ You must specify a valid pinboard api token to use this tool. You can [find it h
 
 Simply copy the token and paste it as an environment variable with the name `PINBOARD_TOKEN`. In Linux and OSX it looks like this:
 ```
-export PINBOARD_TOKEN=user:XXXXXXXXXXXXXXXXXXXX
+  export PINBOARD_TOKEN=user:XXXXXXXXXXXXXXXXXXXX
 ```
 
 You can optionally set environment variables to set the default output format and verbosity like so:
 ```
-export PINBOARD_FORMAT=json
-export PINBOARD_VERBOSE=true
+  export PINBOARD_FORMAT=json
+  export PINBOARD_VERBOSE=true
 ```
 
 After that you're ready to start using pinboard in the command line! Most commands are available, but a few more are coming soon (namely note and tag handling is missing).
@@ -24,9 +24,7 @@ After that you're ready to start using pinboard in the command line! Most comman
 
 ## Usage:
 ```
-$> pinboard help
-
-  Usage: pinboard [action]
+  Usage: pinboard [options] [command]
 
 
   Commands:
@@ -36,7 +34,7 @@ $> pinboard help
     dates             bookmarks separated by date
     delete <url>      delete a bookmark
     get               get bookmark(s)
-    recent            most recent bookmarks (default action)
+    recent            most recent bookmarks
     secret            your secret feed's RSS key
     suggest <url>     suggest tags
     update            datetime of most recent action
@@ -46,6 +44,8 @@ $> pinboard help
 
   Options:
 
-    -h, --help     output usage information
-    -V, --version  output the version number
+    -h, --help          output usage information
+    -V, --version       output the version number
+    -f, --format <fmt>  output format
+    -v, --verbose       display all errors
 ```
