@@ -1,7 +1,13 @@
 'use strict'
 
-
 module.exports =
+  command: (description) ->
+    (require 'commander')
+      .description description
+      .option '-f, --format [color,json]', 'display all errors', 'color'
+      .option '-v, --verbose', 'display all errors'
+
+
   render: (data, template='result') ->
     out = switch process.env.PINBOARD_FORMAT
       when 'color'
@@ -20,7 +26,7 @@ module.exports =
 
             when 'date' then "#{chalk.bold.white data}: #{value}\n"
             when 'error' then chalk.bold.red(data)
-            else chalk.bold.green data[template]
+            else chalk.bold.green(data[template])
 
         if Array.isArray(data)
           text += render(item) for item in data

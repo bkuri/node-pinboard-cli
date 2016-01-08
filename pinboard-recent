@@ -1,36 +1,29 @@
 #!/usr/bin/coffee
 'use strict'
 
-{render, verify} = (require './tools')
+{command, render, verify} = (require './tools')
 verify()
 
-
-command = (require 'commander')
+argv = process.argv.concat()
 Pinboard = (require 'node-pinboard')
 
 
-action = ->
-  try
-    options =
-      count: command.count
-      tags: command.tags
-
-    new Pinboard(process.env.PINBOARD_TOKEN).recent options, (result) ->
-      render result, 'bookmark'
-
-  catch e
-    render e, 'error'
-
-
-argv = process.argv.concat()
 argv.push ''
 
-
-command
-  .description 'Returns a list of the user\'s most recent posts, filtered by tag.'
+command 'Returns a list of the user\'s most recent posts, filtered by tag.'
   .option '-c, --count [int]', 'number of results to return. Default is 15, max is 100', 15
-  .option '-f, --format [color,json]', 'display all errors', 'color'
   .option '-t, --tags <tags>', 'filter by up to 3 tags (comma-separated)'
-  .option '-v, --verbose', 'display all errors'
-  .action action
+
+  .action ->
+    try
+      options =
+        count: command.count
+        tags: command.tags
+
+      new Pinboard(process.env.PINBOARD_TOKEN).recent options, (result) ->
+        render result, 'bookmark'
+
+    catch e
+      render e, 'error'
+
   .parse argv

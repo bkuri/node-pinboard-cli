@@ -2,17 +2,15 @@
 'use strict'
 
 (process.exit yes) if (process.argv.length < 3)
-{render, verify} = (require './tools')
+{command, render, verify} = (require './tools')
 verify()
-
 
 Pinboard = (require 'node-pinboard')
 
 
-(require 'commander')
+command 'Returns a list of popular tags and recommended tags for a given URL. Popular tags are tags used site-wide for the url; recommended tags are drawn from the user\'s own tags.'
   .usage '<url>'
-  .description 'Returns a list of popular tags and recommended tags for a given URL. Popular tags are tags used site-wide for the url; recommended tags are drawn from the user\'s own tags.'
-
+  
   .action (url) ->
     try
       new Pinboard(process.env.PINBOARD_TOKEN).suggest url, (result) ->
@@ -21,6 +19,4 @@ Pinboard = (require 'node-pinboard')
     catch e
       render e, 'error'
 
-  .option '-f, --format [color,json]', 'display all errors', 'color'
-  .option '-v, --verbose', 'display all errors'
   .parse process.argv

@@ -1,35 +1,28 @@
 #!/usr/bin/coffee
 'use strict'
 
-{render, verify} = (require './tools')
+{command, render, verify} = (require './tools')
 verify()
 
-
-command = (require 'commander')
+argv = process.argv.concat()
 Pinboard = (require 'node-pinboard')
 
 
-action = ->
-  try
-    options = switch
-      when command.tags? then tags: command.tags
-      else {}
-
-    new Pinboard(process.env.PINBOARD_TOKEN).dates options, (result) ->
-      render result, 'date'
-
-  catch e
-    render e, 'error'
-
-
-argv = process.argv.concat()
 argv.push ''
 
-
-command
-  .description 'Returns a list of dates with the number of posts at each date.'
-  .option '-f, --format [color,json]', 'display all errors', 'color'
+command 'Returns a list of dates with the number of posts at each date.'
   .option '-t, --tags <tags>', 'filter by up to 3 tags (comma-separated)'
-  .option '-v, --verbose', 'display all errors'
-  .action action
+
+  .action ->
+    try
+      options = switch
+        when command.tags? then tags: command.tags
+        else {}
+
+      new Pinboard(process.env.PINBOARD_TOKEN).dates options, (result) ->
+        render result, 'date'
+
+    catch e
+      render e, 'error'
+
   .parse argv

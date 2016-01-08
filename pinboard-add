@@ -1,46 +1,40 @@
 #!/usr/bin/coffee
 'use strict'
 
-{render, verify} = (require './tools')
+{command, render, verify} = (require './tools')
 verify()
 
-
-command = (require 'commander')
 moment = (require 'moment')
 Pinboard = (require 'node-pinboard')
 
 
-action = (url, desc) ->
-  reply = (what) -> if what? and (what is yes) then 'yes' else 'no'
-
-  try
-    bookmark =
-      url: url
-      description: desc
-      extended: command.extended
-      tags: command.tags
-      dt: command.date
-      replace: (reply command.replaced)
-      shared: (reply command.shared)
-      toread: (reply command.toRead)
-
-    new Pinboard(process.env.PINBOARD_TOKEN).add bookmark, (result) ->
-      (render result, command.format) if (command.verbose or process.env.PINBOARD_VERBOSE)
-
-  catch e
-    render e, 'error'
-
-
-command
-  .description 'Add a bookmark.'
+command 'Add a bookmark.'
   .usage '<url> <desc>'
   .option '-d, --date [date]', 'Date', moment().format()
   .option '-e, --extended [ext]', 'Extended description'
-  .option '-f, --format [color,json]', 'display all errors', 'color'
   .option '-r, --replace', 'Replace existing entry'
   .option '-R, --to-read', 'Tag to read later'
   .option '-s, --shared', 'Shared'
   .option '-t, --tags <tags>', 'filter by up to 3 tags (comma-separated)'
-  .option '-v, --verbose', 'display all errors'
-  .action action
+
+  .action  (url, desc) ->
+    reply = (what) -> if what? and (what is yes) then 'yes' else 'no'
+
+    try
+      bookmark =
+        url: url
+        description: desc
+        extended: command.extended
+        tags: command.tags
+        dt: command.date
+        replace: (reply command.replaced)
+        shared: (reply command.shared)
+        toread: (reply command.toRead)
+
+      new Pinboard(process.env.PINBOARD_TOKEN).add bookmark, (result) ->
+        (render result, 'result_code') if (command.verbose or process.env.PINBOARD_VERBOSE)
+
+    catch e
+      render e, 'error'
+
   .parse process.argv

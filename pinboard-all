@@ -1,44 +1,37 @@
 #!/usr/bin/coffee
 'use strict'
 
-{render, verify} = (require './tools')
+{command, render, verify} = (require './tools')
 verify()
 
-
-command = (require 'commander')
+argv = process.argv.concat()
 Pinboard = (require 'node-pinboard')
 
 
-action = ->
-  try
-    options =
-      fromdt: command.fromDt
-      meta: command.meta
-      results: command.results
-      start: command.start
-      tag: command.tag
-      todt: command.toDt
-
-    new Pinboard(process.env.PINBOARD_TOKEN).all options, (result) ->
-      render result, 'bookmark'
-
-  catch e
-    render e, 'error'
-
-
-argv = process.argv.concat()
 argv.push ''
 
-
-command
-  .description 'Returns all bookmarks in the user\'s account.'
-  .option '-f, --format [color,json]', 'display all errors', 'color'
+command 'Returns all bookmarks in the user\'s account.'
   .option '-F, --from-dt', 'bookmarks created after this time'
   .option '-m, --meta <int>', 'include a change detection signature for each bookmark'
   .option '-r, --results <int>', 'number of results to return', -1
   .option '-s, --start <offset>', 'offset value', 0
   .option '-t, --tags <tags>', 'filter by up to 3 tags (comma-separated)'
   .option '-T, --to-dt', 'bookmarks created before this time'
-  .option '-v, --verbose', 'display all errors'
-  .action action
+
+  .action ->
+    try
+      options =
+        fromdt: command.fromDt
+        meta: command.meta
+        results: command.results
+        start: command.start
+        tag: command.tag
+        todt: command.toDt
+
+      new Pinboard(process.env.PINBOARD_TOKEN).all options, (result) ->
+        render result, 'bookmark'
+
+    catch e
+      render e, 'error'
+
   .parse argv

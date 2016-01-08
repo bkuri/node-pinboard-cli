@@ -1,40 +1,33 @@
 #!/usr/bin/coffee
 'use strict'
 
-{render, verify} = (require './tools')
+{command, render, verify} = (require './tools')
 verify()
 
-
-command = (require 'commander')
+argv = process.argv.concat()
 Pinboard = (require 'node-pinboard')
 
 
-action = ->
-  try
-    options =
-      dt: command.date
-      meta: if command.meta? and (command.meta is yes) then 'yes' else 'no'
-      tags: command.tags
-      url: command.url
-
-    new Pinboard(process.env.PINBOARD_TOKEN).get options, (result) ->
-      render result, 'bookmark'
-
-  catch e
-    render e, 'error'
-
-
-argv = process.argv.concat()
 argv.push ''
 
-
-command
-  .description 'Returns one or more posts on a single day matching the arguments. If no date or url is given, date of most recent bookmark will be used.'
+command 'Returns one or more posts on a single day matching the arguments. If no date or url is given, date of most recent bookmark will be used.'
   .option '-d, --date <date>', 'filter by date'
-  .option '-f, --format [color,json]', 'display all errors', 'color'
   .option '-m, --meta', 'include a change detection signature in meta'
   .option '-t, --tags <tags>', 'filter by < 4 tags (comma-separated)'
   .option '-u, --url <url>', 'get a specific url'
-  .option '-v, --verbose', 'display all errors'
-  .action action
+
+  .action ->
+    try
+      options =
+        dt: command.date
+        meta: if command.meta? and (command.meta is yes) then 'yes' else 'no'
+        tags: command.tags
+        url: command.url
+
+      new Pinboard(process.env.PINBOARD_TOKEN).get options, (result) ->
+        render result, 'bookmark'
+
+    catch e
+      render e, 'error'
+
   .parse argv
