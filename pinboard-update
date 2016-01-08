@@ -2,25 +2,30 @@
 'use strict'
 
 
-{argv, define, pinboard, respond, verify} = (require './tools')
+{argv, define, one, pinboard, respond, verify} = (require './tools')
 
 verify()
 
 command = (define 'Returns the most recent time a bookmark was added, updated or deleted. Use this before calling `all` to see if the data has changed since the last fetch.')
 
 command
+  .option '-f --format [fmt]', 'output format', /^(color|json)$/i, 'color'
+  .option '-v --verbose', 'display all output'
+
   .action ->
+    format = one(command.format, process.env.PINBOARD_FORMAT)
+
     try
       pinboard().update (result) ->
-        return unless (command.verbose or process.env.PINBOARD_VERBOSE)
+        return if one(command.verbose, process.env.PINBOARD_VERBOSE) is no
 
-        if process.env.PINBOARD_FORMAT is 'color'
+        if format is 'color'
           time = (require 'moment')(result.update_time).fromNow()
           result.update_time = "Last updated #{time}."
 
-        respond result, 'update_time'
+        respond result, format, 'update_time'
 
     catch e
-      respond e, 'error'
+      respond e, format, 'error'
 
   .parse argv()

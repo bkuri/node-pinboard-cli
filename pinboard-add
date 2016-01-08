@@ -2,24 +2,28 @@
 'use strict'
 
 
-{argv, define, pinboard, respond, verbose, verify, yesno} = (require './tools')
+{argv, define, one, pinboard, respond, verify, yesno} = (require './tools')
 
 verify()
 
 command = (define 'Add a bookmark.')
 
 command
-  .option '-d, --date [date]', 'Date', (require 'moment')().format()
-  .option '-e, --extended [ext]', 'Extended description'
-  .option '-r, --replace', 'Replace existing entry'
-  .option '-R, --to-read', 'Tag to read later'
-  .option '-s, --shared', 'Shared'
-  .option '-t, --tags <tags>', 'filter by up to 3 tags (comma-separated)'
+  .option '-d --date [date]', 'Date', (require 'moment')().format()
+  .option '-e --extended [ext]', 'Extended description'
+  .option '-f --format [fmt]', 'output format', /^(color|json)$/i, 'color'
+  .option '-r --replace', 'Replace existing entry'
+  .option '-R --to-read', 'Tag to read later'
+  .option '-s --shared', 'Shared'
+  .option '-t --tags <tags>', 'filter by up to 3 tags (comma-separated)'
+  .option '-v --verbose', 'display all output'
 
-  .action  (url, desc) ->
+  .action  (url, description) ->
+    format = one(command.format, process.env.PINBOARD_FORMAT)
+
     try
       bookmark =
-        description: desc
+        description: description
         dt: command.date
         extended: command.extended
         replace: yesno(command.replaced)
@@ -29,10 +33,11 @@ command
         url: url
 
       pinboard().add bookmark, (result) ->
-        (respond result, 'result_code') if (command.verbose or process.env.PINBOARD_VERBOSE)
+        return if one(command.verbose, process.env.PINBOARD_VERBOSE) is no
+        respond result, format, 'result_code'
 
     catch e
-      respond e, 'error'
+      respond e, format, 'error'
 
-  .usage '<url> <desc>'
+  .usage '<url> <description>'
   .parse argv()

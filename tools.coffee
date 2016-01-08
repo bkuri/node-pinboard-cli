@@ -13,16 +13,18 @@ module.exports =
     (require 'commander')
       .version (require './package').version
       .description description
-      .option '-f, --format <fmt>', 'output format', /^(color|json)$/i, 'color'
-      .option '-v, --verbose', 'display all errors'
+
+
+  one: (pri, sec) ->
+    if (pri? and sec?) then (pri or sec) else sec
 
 
   pinboard: ->
     new (require 'node-pinboard')(process.env.PINBOARD_TOKEN)
 
 
-  respond: (data, template='result') ->
-    out = switch process.env.PINBOARD_FORMAT
+  respond: (data, format, template='result') ->
+    out = switch format
       when 'color'
         chalk = (require 'chalk')
         data = data.posts if data.posts?
@@ -67,7 +69,7 @@ module.exports =
       notEqual process.env.PINBOARD_TOKEN, 'user:XXXXXXXXXXXXXXXXXXXX'
 
     catch
-      console.error 'PINBOARD_TOKEN env variable not found. Enter `pinboard help` for more information.'
+      console.error 'PINBOARD_TOKEN env variable not found.'
       process.exit yes
 
 

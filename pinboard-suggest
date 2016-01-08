@@ -2,19 +2,21 @@
 'use strict'
 
 
-{argv, define, pinboard, respond, verify} = (require './tools')
+{argv, define, one, pinboard, respond, verify} = (require './tools')
 
 (respond 'Error: You must specify a url.', 'error') if (process.argv.length < 3)
 verify()
 
 (define 'Returns a list of popular tags and recommended tags for a given URL. Popular tags are tags used site-wide for the url; recommended tags are drawn from the user\'s own tags.')
   .action (url) ->
+    format = one(command.format, process.env.PINBOARD_FORMAT)
+
     try
       pinboard().suggest url, (result) ->
-        respond result, 'tags'
+        respond result, format, 'tags'
 
     catch e
-      respond e, 'error'
+      respond e, format, 'error'
 
   .usage '<url>'
   .parse argv()
