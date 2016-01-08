@@ -2,7 +2,7 @@
 'use strict'
 
 
-{argv, define, pinboard, respond, verify} = (require './tools')
+{argv, define, pinboard, respond, verify, yesno} = (require './tools')
 
 verify()
 
@@ -18,7 +18,7 @@ command
     try
       options =
         dt: command.date
-        meta: if command.meta? and (command.meta is yes) then 'yes' else 'no'
+        meta: yesno(command.meta)
         tags: command.tags
         url: command.url
 

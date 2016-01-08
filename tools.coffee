@@ -69,3 +69,8 @@ module.exports =
     catch
       console.error 'PINBOARD_TOKEN env variable not found. Enter `pinboard help` for more information.'
       process.exit yes
+
+
+  yesno: (what) ->
+    return undefined unless what?
+    if (what is yes) then 'yes' else 'no'

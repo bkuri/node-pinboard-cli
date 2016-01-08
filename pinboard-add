@@ -2,7 +2,7 @@
 'use strict'
 
 
-{argv, define, pinboard, respond, verbose, verify} = (require './tools')
+{argv, define, pinboard, respond, verbose, verify, yesno} = (require './tools')
 
 verify()
 
@@ -17,18 +17,16 @@ command
   .option '-t, --tags <tags>', 'filter by up to 3 tags (comma-separated)'
 
   .action  (url, desc) ->
-    reply = (what) -> if what? and (what is yes) then 'yes' else 'no'
-
     try
       bookmark =
-        url: url
         description: desc
-        extended: command.extended
-        tags: command.tags
         dt: command.date
-        replace: (reply command.replaced)
-        shared: (reply command.shared)
-        toread: (reply command.toRead)
+        extended: command.extended
+        replace: yesno(command.replaced)
+        shared: yesno(command.shared)
+        tags: command.tags
+        toread: yesno(command.toRead)
+        url: url
 
       pinboard().add bookmark, (result) ->
         (respond result, 'result_code') if (command.verbose or process.env.PINBOARD_VERBOSE)
