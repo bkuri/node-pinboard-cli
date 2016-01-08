@@ -4,6 +4,23 @@
 
 Uses [node-pinboard](https://npmjs.org/package/node-pinboard) and [commanderjs](http://tj.github.io/commander.js/).
 
+**Setup:**
+You must specify a valid pinboard api token to use this tool. You can [find it here](https://pinboard.in/settings/password) after logging in.
+
+Simply copy the token and paste it as an environment variable with the name `PINBOARD_TOKEN`. In Linux and OSX it looks like this:
+```
+export PINBOARD_TOKEN=user:XXXXXXXXXXXXXXXXXXXX
+```
+
+You can optionally set environment variables to set the default output format and verbosity like so:
+```
+export PINBOARD_FORMAT=json
+export PINBOARD_VERBOSE=true
+```
+
+After that you're ready to start using.
+
+**Usage:**
 ```
 $> pinboard help
 
