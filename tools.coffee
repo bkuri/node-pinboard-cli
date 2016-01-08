@@ -16,32 +16,33 @@ module.exports =
 
 
   format: (which) ->
-    return (data, template='result') ->
+    return (data, type='result') ->
       out = switch which
         when 'color'
           chalk = (require 'chalk')
           data = data.posts if data.posts?
           text = '\n\n'
 
-          render = (data, value) ->
-            switch template
+          render = (key, value) ->
+            switch type
               when 'bookmark'
                 """
-                #{chalk.bold.white data.description}
-                #{chalk.yellow data.tags or '--'}
-                #{chalk.dim.gray data.href}\n\n
+                #{chalk.bold.white key.description}
+                #{chalk.yellow key.tags or '--'}
+                #{chalk.dim.gray key.href}\n\n
                 """
 
-              when 'date' then "#{chalk.bold.white data}: #{value}\n"
-              when 'error' then chalk.bold.red(data)
-              else chalk.bold.green(data[template])
+              when 'date', 'tags' then "#{chalk.bold.white key}: #{value}\n"
+              when 'error' then chalk.bold.red(key)
+              else chalk.bold.green(key[type])
 
           if Array.isArray(data)
-            text += render(item) for item in data
+            switch type
+              when 'result' then text += render(item) for item in data
+              when 'tags' then text += render(b, data[i][b].join ', ') for b, i in ['popular', 'recommended']
 
           else if data.dates?
-            data = data.dates
-            text += render(i, data[i]) for i in Object.keys(data)
+            text += render(k, data.dates[k]) for k in Object.keys(data.dates)
 
           else text = render(data)
 
@@ -50,7 +51,7 @@ module.exports =
         when 'json' then JSON.stringify(data)
 
 
-      isError = (template is 'error')
+      isError = (type is 'error')
 
       if isError then console.error(out) else console.log(out)
       process.exit isError
