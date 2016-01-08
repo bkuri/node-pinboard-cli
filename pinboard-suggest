@@ -2,19 +2,19 @@
 'use strict'
 
 
-{argv, define, pinboard, render, verify} = (require './tools')
+{argv, define, pinboard, respond, verify} = (require './tools')
 
-(render 'Error: You must specify a url.', 'error') if (process.argv.length < 3)
+(respond 'Error: You must specify a url.', 'error') if (process.argv.length < 3)
 verify()
 
 (define 'Returns a list of popular tags and recommended tags for a given URL. Popular tags are tags used site-wide for the url; recommended tags are drawn from the user\'s own tags.')
   .action (url) ->
     try
       pinboard().suggest url, (result) ->
-        render result, 'tags'
+        respond result, 'tags'
 
     catch e
-      render e, 'error'
+      respond e, 'error'
 
   .usage '<url>'
   .parse argv()

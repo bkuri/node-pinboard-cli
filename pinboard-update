@@ -2,7 +2,7 @@
 'use strict'
 
 
-{argv, define, pinboard, render, verify} = (require './tools')
+{argv, define, pinboard, respond, verify} = (require './tools')
 
 verify()
 
@@ -18,9 +18,9 @@ command
           time = (require 'moment')(result.update_time).fromNow()
           result.update_time = "Last updated #{time}."
 
-        render result, 'update_time'
+        respond result, 'update_time'
 
     catch e
-      render e, 'error'
+      respond e, 'error'
 
   .parse argv()

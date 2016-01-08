@@ -2,7 +2,7 @@
 'use strict'
 
 
-{argv, define, pinboard, render, verify} = (require './tools')
+{argv, define, pinboard, respond, verify} = (require './tools')
 
 verify()
 
@@ -17,9 +17,9 @@ command
         else {}
 
       pinboard().dates options, (result) ->
-        render result, 'date'
+        respond result, 'date'
 
     catch e
-      render e, 'error'
+      respond e, 'error'
 
   .parse argv()

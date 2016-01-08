@@ -2,7 +2,7 @@
 'use strict'
 
 
-{argv, define, pinboard, render, verbose, verify} = (require './tools')
+{argv, define, pinboard, respond, verbose, verify} = (require './tools')
 
 verify()
 
@@ -30,10 +30,10 @@ command
         toread: (reply command.toRead)
 
       pinboard().add bookmark, (result) ->
-        (render result, 'result_code') if (command.verbose or process.env.PINBOARD_VERBOSE)
+        (respond result, 'result_code') if (command.verbose or process.env.PINBOARD_VERBOSE)
 
     catch e
-      render e, 'error'
+      respond e, 'error'
 
   .usage '<url> <desc>'
   .parse argv()

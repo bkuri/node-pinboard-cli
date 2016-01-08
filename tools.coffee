@@ -21,7 +21,7 @@ module.exports =
     new (require 'node-pinboard')(process.env.PINBOARD_TOKEN)
 
 
-  render: (data, template='result') ->
+  respond: (data, template='result') ->
     out = switch process.env.PINBOARD_FORMAT
       when 'color'
         chalk = (require 'chalk')
