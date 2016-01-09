@@ -2,7 +2,15 @@
 ## Use [pinboard.in](https://pinboard.in) from the command line.
 ### Almost feature complete!
 
-Uses [node-pinboard](https://npmjs.org/package/node-pinboard) and [commanderjs](http://tj.github.io/commander.js/).
+
+Utilizes the following modules:
+  + [chalk](https://github.com/chalk/chalk)
+  + [commander](http://tj.github.io/commander.js/)
+  + [lodash](https://github.com/lodash/lodash/)
+  + [moment](https://github.com/moment/moment/)
+  + [node-env-file](https://github.com/grimen/node-env-file)
+  + [node-pinboard](https://github.com/maxmechanic/node-pinboard) (forked)
+  + [request](https://github.com/request/request)
 
 
 ## Setup:
