@@ -16,9 +16,8 @@ dates
     respond = format one(dates.format, PINBOARD_FORMAT)
 
     try
-      options = switch
-        when dates.tags? then tags: dates.tags
-        else {}
+      options =
+        tags: dates.tags
 
       pinboard().dates options, (result) ->
         respond result, 'date'

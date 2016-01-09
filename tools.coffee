@@ -1,11 +1,14 @@
 'use strict'
 
 
+{intersection} = require('lodash')
+
 module.exports =
   argv: ->
     argv = process.argv.concat()
+    list = ['--help', '']
 
-    argv.push ''
+    argv.push('') unless intersection(list, argv).length > 0
     return argv
 
 
@@ -38,8 +41,8 @@ module.exports =
 
           if Array.isArray(data)
             switch type
-              when 'result' then text += render(item) for item in data
               when 'tags' then text += render(b, data[i][b].join ', ') for b, i in ['popular', 'recommended']
+              else text += render(item) for item in data
 
           else if data.dates?
             text += render(k, data.dates[k]) for k in Object.keys(data.dates)
@@ -67,7 +70,7 @@ module.exports =
 
     try
       notEqual process.env.PINBOARD_TOKEN, 'user:XXXXXXXXXXXXXXXXXXXX'
-      new (require 'node-pinboard')(process.env.PINBOARD_TOKEN)
+      new (require './Pinboard')(process.env.PINBOARD_TOKEN)
 
     catch
       console.error 'PINBOARD_TOKEN env variable not found.'
