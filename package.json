@@ -22,5 +22,5 @@
     "start": "bin/pinboard",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "0.2.9"
+  "version": "0.3.0"
 }

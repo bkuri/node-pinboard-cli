@@ -5,15 +5,14 @@
 (process.exit yes) if (process.argv.length < 3)
 
 
-{PINBOARD_FORMAT, PINBOARD_VERBOSE} = process.env
+{PINBOARD_FORMAT} = process.env
 {argv, define, one, pinboard} = require('../lib/tools')
 
 
 del = define('Delete a bookmark.')
 
 del
-  .option '-f --format [fmt]', 'output format', /^(color|json)$/i, PINBOARD_FORMAT
-  .option '-v --verbose', 'display all output'
+  .option '-f --format <fmt>', 'output format', /^(color|json)$/i
 
   .action (url) ->
     {format} = require('../lib/format')
@@ -21,11 +20,10 @@ del
 
     try
       pinboard().delete url, (result) ->
-        return if (del.verbose or PINBOARD_VERBOSE)
         respond result, 'result_code'
 
     catch error
       respond error, 'error'
 
   .usage '<url>'
-  .parse argv()
+  .parse argv(del.options)

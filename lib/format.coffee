@@ -7,31 +7,34 @@ module.exports =
       result = switch what
 
         when 'color'
-          data = data.notes if data.notes?
-          data = data.posts if data.posts?
+          data = switch
+            when data.dates? then data.dates
+            when data.notes? then data.notes
+            when data.posts? then data.posts
+            when data.result? then data.result
+            else data
+
           render = (require './templates').render(type)
           text = '\n\n'
 
-          if Array.isArray(data)
-            text += switch type
+          switch type
+            when 'dates', 'tags'
+              text += render(k, data[k]) for k in Object.keys(data)
 
-              when 'notes'
-                render(n.updated_at, n.id, n.title) for n in data
+            when 'notes'
+              text += render(n.updated_at, n.id, n.title) for n in data
 
-              when 'tags'
-                category = ['popular', 'recommended']
-                render(c, data[i][c].join ', ') for c, i in category
+            when 'suggestions'
+              category = ['popular', 'recommended']
+              text += render(c, data[i][c].join ', ') for c, i in category
 
-              else
-                render(item) for item in data
+            when Array.isArray(data)
+              text += render(item) for item in data
 
-          else if data.dates?
-            text += render(k, data.dates[k]) for k in Object.keys(data.dates)
+            else
+              text = render(data)
 
-          else
-            text = render(data)
-
-          text
+          text.split(',').join('')
 
 
         when 'json'

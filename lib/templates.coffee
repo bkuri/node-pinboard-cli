@@ -15,8 +15,8 @@ module.exports =
           #{chalk.dim.gray val[0].href}\n\n
           """
 
-        when 'dates', 'tags'
-          "#{chalk.bold.white val[0]}: #{val[0]}\n"
+        when 'dates', 'suggestions', 'tags'
+          "#{chalk.bold.white val[0]}: #{val[1]}\n"
 
         when 'error'
           chalk.bold.red(val[0])
@@ -27,8 +27,11 @@ module.exports =
         when 'notes'
           "#{chalk.bold.white val[0]}: [#{chalk.gray val[1]}] #{val[2]}\n"
 
+        when 'result'
+          chalk.bold.green val[0]
+
         else
-          chalk.bold.green(val[0][what])
+          chalk.bold.green val[0][what]
 
 
       if chalk.supportsColor then text

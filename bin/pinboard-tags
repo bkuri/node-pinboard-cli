@@ -1,0 +1,53 @@
+#!/usr/bin/coffee
+'use strict'
+
+
+{PINBOARD_FORMAT} = process.env
+{argv, define, one, pinboard} = require('../lib/tools')
+
+
+tags = define('Returns a full list of the user\'s tags along with the number of times they were used. Can also be used to rename or delete a tag.')
+
+tags
+  .option '-d --delete <tag>', 'delete a tag'
+  .option '-f --format <fmt>', 'output format', /^(color|json)$/i
+  .option '-r --rename <tag>', 'rename a tag'
+
+  .on '--help', ->
+    console.log '''
+      Examples:
+
+        List all tag usage:
+          $ pinboard tags
+
+        Delete a tag:
+          $ pinboard tags -d <tag>
+
+        Rename a tag:
+          $ pinboard tags -r <tag> <newName>
+
+    '''
+
+  .action (tag) ->
+    {format} = require('../lib/format')
+    [del, ren] = [tags.delete?.length > 0, tags.rename?.length > 0]
+    pinboard = pinboard()
+    respond = format one(tags.format, PINBOARD_FORMAT)
+
+    try
+      unless (del or ren)
+        pinboard.getTags (result) ->
+          respond result, 'tags'
+
+      if del
+        pinboard.delTag tags.delete, respond
+
+      if ren
+        respond('Tag name required.', 'error') unless tag?.length
+        pinboard.renameTag old: tags.rename, new: tag, respond
+
+
+    catch error
+      respond error, 'error'
+
+  .parse argv(tags.options)

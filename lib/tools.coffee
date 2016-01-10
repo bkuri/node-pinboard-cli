@@ -2,11 +2,12 @@
 
 
 module.exports =
-  argv: ->
+  argv: (options) ->
     {intersection} = require('lodash')
     argv = process.argv.concat()
     list = ['--help', '']
 
+    list.push(o.long, o.short) for o in options when (o.required < 0)
     argv.push('') unless intersection(list, argv).length > 0
     return argv
 

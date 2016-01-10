@@ -9,13 +9,13 @@
 all = define('Returns all bookmarks in the user\'s account.')
 
 all
-  .option '-f --format [fmt]', 'output format', /^(color|json)$/i, PINBOARD_FORMAT
-  .option '-F --from-dt', 'bookmarks created after this time'
+  .option '-f --format <fmt>', 'output format', /^(color|json)$/i
+  .option '-F --from-dt <date>', 'bookmarks created after this time'
   .option '-m --meta <int>', 'include a change detection signature for each bookmark'
   .option '-r --results <int>', 'number of results to return', -1
   .option '-s --start <offset>', 'offset value', 0
   .option '-t --tags <tags>', 'filter by up to 3 tags (comma-separated)'
-  .option '-T --to-dt', 'bookmarks created before this time'
+  .option '-T --to-dt <date>', 'bookmarks created before this time'
 
   .action ->
     {format} = require('../lib/format')
@@ -36,4 +36,4 @@ all
     catch error
       respond error, 'error'
 
-  .parse argv()
+  .parse argv(all.options)

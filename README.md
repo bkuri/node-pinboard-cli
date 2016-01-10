@@ -1,16 +1,5 @@
 # node-pinboard-cli
 ## Use [pinboard.in](https://pinboard.in) from the command line.
-### Almost feature complete!
-
-
-Utilizes the following modules:
-  + [chalk](https://github.com/chalk/chalk)
-  + [commander](http://tj.github.io/commander.js/)
-  + [lodash](https://github.com/lodash/lodash/)
-  + [moment](https://github.com/moment/moment/)
-  + [node-env-file](https://github.com/grimen/node-env-file)
-  + [node-pinboard](https://github.com/maxmechanic/node-pinboard) (forked)
-  + [request](https://github.com/request/request)
 
 
 ## Setup:
@@ -21,13 +10,12 @@ Simply copy the token and paste it as an environment variable with the name `PIN
   export PINBOARD_TOKEN=user:XXXXXXXXXXXXXXXXXXXX
 ```
 
-You can optionally set environment variables to set the default output format and verbosity like so:
+You can optionally set environment variables to specify the default output format like so:
 ```
   export PINBOARD_FORMAT=json
-  export PINBOARD_VERBOSE=true
 ```
 
-After that you're ready to start using pinboard in the command line! Most commands are available, but more is coming soon (namely tag handling is missing).
+After that you're ready to start using pinboard in the command line!
 
 
 ## Usage:
@@ -46,6 +34,7 @@ After that you're ready to start using pinboard in the command line! Most comman
     recent            most recent bookmarks
     secret            your secret feed's RSS key
     suggest <url>     suggest tags
+    tags              tag related activities
     update            datetime of most recent action
     help [cmd]        display help for [cmd]
 
@@ -56,3 +45,14 @@ After that you're ready to start using pinboard in the command line! Most comman
     -h, --help     output usage information
     -V, --version  output the version number
 ```
+
+## Dependencies
+
+Utilizes the following modules:
+  + [chalk](https://github.com/chalk/chalk)
+  + [commander](http://tj.github.io/commander.js/)
+  + [lodash](https://github.com/lodash/lodash/)
+  + [moment](https://github.com/moment/moment/)
+  + [node-env-file](https://github.com/grimen/node-env-file)
+  + [node-pinboard](https://github.com/maxmechanic/node-pinboard) (cloned)
+  + [request](https://github.com/request/request)

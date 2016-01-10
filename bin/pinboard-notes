@@ -9,7 +9,7 @@
 notes = define('Returns an individual user note id `id` is specified. Otherwise returns all of them.')
 
 notes
-  .option '-f --format [fmt]', 'output format', /^(color|json)$/i, PINBOARD_FORMAT
+  .option '-f --format <fmt>', 'output format', /^(color|json)$/i
 
   .action (id) ->
     {format} = require('../lib/format')
@@ -28,4 +28,4 @@ notes
       respond error, 'error'
 
   .usage '[id]'
-  .parse argv()
+  .parse argv(notes.options)

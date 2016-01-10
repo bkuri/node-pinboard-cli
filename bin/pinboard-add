@@ -2,7 +2,7 @@
 'use strict'
 
 
-{PINBOARD_FORMAT, PINBOARD_VERBOSE} = process.env
+{PINBOARD_FORMAT} = process.env
 {argv, define, one, pinboard, yesno} = require('../lib/tools')
 
 
@@ -11,12 +11,11 @@ add = define('Add a bookmark.')
 add
   .option '-d --date [date]', 'Date', require('moment')().format()
   .option '-e --extended [ext]', 'Extended description'
-  .option '-f --format [fmt]', 'output format', /^(color|json)$/i, PINBOARD_FORMAT
+  .option '-f --format <fmt>', 'output format', /^(color|json)$/i
   .option '-r --replace', 'Replace existing entry'
   .option '-R --to-read', 'Tag to read later'
   .option '-s --shared', 'Shared'
   .option '-t --tags <tags>', 'filter by up to 3 tags (comma-separated)'
-  .option '-v --verbose', 'display all output'
 
   .action  (url, description) ->
     {format} = require('../lib/format')
@@ -34,11 +33,10 @@ add
         url: url
 
       pinboard().add bookmark, (result) ->
-        return if one(add.verbose, PINBOARD_VERBOSE) is no
         respond result, 'result_code'
 
     catch error
       respond error, 'error'
 
   .usage '<url> <description>'
-  .parse argv()
+  .parse argv(add.options)

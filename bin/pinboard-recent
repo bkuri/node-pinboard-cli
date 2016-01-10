@@ -10,7 +10,7 @@ recent = define('Returns a list of the user\'s most recent posts, filtered by ta
 
 recent
   .option '-c --count [int]', 'number of results to return. Default is 15, max is 100', 15
-  .option '-f --format [fmt]', 'output format', /^(color|json)$/i, PINBOARD_FORMAT
+  .option '-f --format <fmt>', 'output format', /^(color|json)$/i
   .option '-t --tags <tags>', 'filter by up to 3 tags (comma-separated)'
 
   .action ->
@@ -28,4 +28,4 @@ recent
     catch error
       respond error, 'error'
 
-  .parse argv()
+  .parse argv(recent.options)

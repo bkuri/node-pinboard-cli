@@ -9,7 +9,7 @@
 dates = define('Returns a list of dates with the number of posts at each date.')
 
 dates
-  .option '-f --format [fmt]', 'output format', /^(color|json)$/i, PINBOARD_FORMAT
+  .option '-f --format <fmt>', 'output format', /^(color|json)$/i
   .option '-t --tags <tags>', 'filter by up to 3 tags (comma-separated)'
 
   .action ->
@@ -26,4 +26,4 @@ dates
     catch error
       respond error, 'error'
 
-  .parse argv()
+  .parse argv(dates.options)

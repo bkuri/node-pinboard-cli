@@ -7,7 +7,6 @@
 
 # TODO missing commands:
 ###
-  .command 'tags <action> [params...]', 'tag related activities'
 ###
 
 
@@ -21,5 +20,6 @@ define('Use pinboard.in from the command line.')
   .command 'recent', 'most recent bookmarks'
   .command 'secret', 'your secret feed\'s RSS key'
   .command 'suggest <url>', 'suggest tags'
+  .command 'tags', 'tag related activities'
   .command 'update', 'datetime of most recent action'
   .parse process.argv

@@ -12,7 +12,7 @@
 suggest = define('Returns a list of popular tags and recommended tags for a given URL. Popular tags are tags used site-wide for the url; recommended tags are drawn from the user\'s own tags.')
 
 suggest
-  .option '-f --format [fmt]', 'output format', /^(color|json)$/i, PINBOARD_FORMAT
+  .option '-f --format <fmt>', 'output format', /^(color|json)$/i
 
   .action (url) ->
     {format} = require('../lib/format')
@@ -20,10 +20,10 @@ suggest
 
     try
       pinboard().suggest url, (result) ->
-        respond result, 'tags'
+        respond result, 'suggestions'
 
     catch error
       respond error, 'error'
 
   .usage '<url>'
-  .parse argv()
+  .parse argv(suggest.options)
