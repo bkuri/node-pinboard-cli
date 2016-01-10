@@ -3,7 +3,7 @@
 
 
 {PINBOARD_FORMAT} = process.env
-{argv, define, one, pinboard} = require('./lib/tools')
+{argv, define, one, pinboard} = require('../lib/tools')
 
 
 all = define('Returns all bookmarks in the user\'s account.')
@@ -18,7 +18,7 @@ all
   .option '-T --to-dt', 'bookmarks created before this time'
 
   .action ->
-    {format} = require('./lib/format')
+    {format} = require('../lib/format')
     respond = format one(all.format, PINBOARD_FORMAT)
 
     try

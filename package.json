@@ -1,6 +1,6 @@
 {
   "author": "@bkuri",
-  "bin": { "pinboard": "pinboard" },
+  "bin": { "pinboard": "bin/pinboard" },
   "dependencies": {
     "chalk": "^1.1.1",
     "commander": "^2.9.0",
@@ -19,8 +19,8 @@
     "url": "https://github.com/bkuri/node-pinboard-cli.git"
   },
   "scripts": {
-    "start": "pinboard",
+    "start": "bin/pinboard",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "0.2.6"
+  "version": "0.2.7"
 }

@@ -3,7 +3,7 @@
 
 
 {PINBOARD_FORMAT} = process.env
-{argv, define, one, pinboard} = require('./lib/tools')
+{argv, define, one, pinboard} = require('../lib/tools')
 
 
 recent = define('Returns a list of the user\'s most recent posts, filtered by tag.')
@@ -14,7 +14,7 @@ recent
   .option '-t --tags <tags>', 'filter by up to 3 tags (comma-separated)'
 
   .action ->
-    {format} = require('./lib/format')
+    {format} = require('../lib/format')
     respond = format one(recent.format, PINBOARD_FORMAT)
 
     try

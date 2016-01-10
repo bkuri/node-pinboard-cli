@@ -1,3 +1,5 @@
+# This is basically node-pinboard + coffeescript. I used the version from github because the npm module seems to be out of date.
+
 'use strict'
 
 

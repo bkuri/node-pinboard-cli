@@ -31,7 +31,7 @@ module.exports =
       new (require './pinboard')(PINBOARD_TOKEN)
 
     catch
-      # console.error 'PINBOARD_TOKEN environment variable not found.'
+      console.error 'PINBOARD_TOKEN environment variable not found.'
       process.exit yes
 
 
