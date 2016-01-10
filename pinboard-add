@@ -3,7 +3,7 @@
 
 
 {PINBOARD_FORMAT, PINBOARD_VERBOSE} = process.env
-{argv, define, format, one, pinboard, yesno} = require('./tools')
+{argv, define, one, pinboard, yesno} = require('./lib/tools')
 
 
 add = define('Add a bookmark.')
@@ -19,6 +19,7 @@ add
   .option '-v --verbose', 'display all output'
 
   .action  (url, description) ->
+    {format} = require('./lib/format')
     respond = format one(add.format, PINBOARD_FORMAT)
 
     try

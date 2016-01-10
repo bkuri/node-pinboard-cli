@@ -2,7 +2,7 @@
 'use strict'
 
 
-{define} = require('./tools')
+{define} = require('./lib/tools')
 
 
 # TODO missing_commands:

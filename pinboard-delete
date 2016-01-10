@@ -6,7 +6,7 @@
 
 
 {PINBOARD_FORMAT, PINBOARD_VERBOSE} = process.env
-{argv, define, format, one, pinboard} = require('./tools')
+{argv, define, one, pinboard} = require('./lib/tools')
 
 
 del = define('Delete a bookmark.')
@@ -16,6 +16,7 @@ del
   .option '-v --verbose', 'display all output'
 
   .action (url) ->
+    {format} = require('./lib/format')
     respond = format one(del.format, PINBOARD_FORMAT)
 
     try

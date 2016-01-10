@@ -6,7 +6,7 @@
 
 
 {PINBOARD_FORMAT} = process.env
-{argv, define, format, one, pinboard} = require('./tools')
+{argv, define, one, pinboard} = require('./lib/tools')
 
 
 suggest = define('Returns a list of popular tags and recommended tags for a given URL. Popular tags are tags used site-wide for the url; recommended tags are drawn from the user\'s own tags.')
@@ -15,6 +15,7 @@ suggest
   .option '-f --format [fmt]', 'output format', /^(color|json)$/i, PINBOARD_FORMAT
 
   .action (url) ->
+    {format} = require('./lib/format')
     respond = format one(suggest.format, PINBOARD_FORMAT)
 
     try

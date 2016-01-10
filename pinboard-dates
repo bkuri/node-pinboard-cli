@@ -3,7 +3,7 @@
 
 
 {PINBOARD_FORMAT} = process.env
-{argv, define, format, one, pinboard} = require('./tools')
+{argv, define, one, pinboard} = require('./lib/tools')
 
 
 dates = define('Returns a list of dates with the number of posts at each date.')
@@ -13,6 +13,7 @@ dates
   .option '-t --tags <tags>', 'filter by up to 3 tags (comma-separated)'
 
   .action ->
+    {format} = require('./lib/format')
     respond = format one(dates.format, PINBOARD_FORMAT)
 
     try

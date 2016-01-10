@@ -3,7 +3,7 @@
 
 
 {PINBOARD_FORMAT} = process.env
-{argv, define, format, one, pinboard, yesno} = require('./tools')
+{argv, define, one, pinboard, yesno} = require('./lib/tools')
 
 
 get = define('Returns one or more posts on a single day matching the arguments. If no date or url is given, date of most recent bookmark will be used.')
@@ -16,6 +16,7 @@ get
   .option '-u --url <url>', 'get a specific url'
 
   .action ->
+    {format} = require('./lib/format')
     respond = format one(get.format, PINBOARD_FORMAT)
 
     try
