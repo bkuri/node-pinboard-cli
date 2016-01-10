@@ -9,7 +9,7 @@ module.exports =
     req = []
 
     req.push(o.long, o.short) for o in options when (o.required < 0)
-    argv.push('') if indexOf(req, last(argv)) < 0 or intersection(list, argv).length
+    argv.push('') if indexOf(req, last(argv)) is -1 and intersection(list, argv).length < 1
     return argv
 
 

@@ -16,7 +16,7 @@ module.exports =
             else data
 
           render = render(type)
-          text = '\n\n'
+          text = ''
 
           switch type
             when 'dates', 'tags'
@@ -29,11 +29,8 @@ module.exports =
               category = ['popular', 'recommended']
               text += render(c, data[i][c].join ', ') for c, i in category
 
-            when Array.isArray(data)
-              text += render(item) for item in data
-
             else
-              text = render(data)
+              text += render(item) for item in data
 
           text.split(',').join('')
 
