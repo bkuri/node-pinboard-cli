@@ -7,36 +7,10 @@ module.exports =
       result = switch what
 
         when 'color'
-          chalk = (require 'chalk')
-          data = data.posts if data.posts?
           data = data.notes if data.notes?
+          data = data.posts if data.posts?
+          render = (require './templates').render(type)
           text = '\n\n'
-
-          render = (val...) ->
-            switch type
-
-              when 'bookmarks'
-                """
-                #{chalk.bold.white val[0].description}
-                #{chalk.yellow val[0].tags or '--'}
-                #{chalk.dim.gray val[0].href}\n\n
-                """
-
-              when 'dates', 'tags'
-                "#{chalk.bold.white val[0]}: #{val[0]}\n"
-
-              when 'error'
-                chalk.bold.red(val[0])
-
-              when 'note'
-                "\n#{chalk.bold.white val[0].title}\n#{val[0].text}"
-
-              when 'notes'
-                "#{chalk.bold.white val[0]}: [#{chalk.gray val[1]}] #{val[2]}\n"
-
-              else
-                chalk.bold.green(val[0][type])
-
 
           if Array.isArray(data)
             text += switch type
@@ -57,9 +31,7 @@ module.exports =
           else
             text = render(data)
 
-
-          if chalk.supportsColor then text
-          else chalk.stripColor(text)
+          text
 
 
         when 'json'
