@@ -5,9 +5,8 @@
 {define} = require('../lib/tools')
 
 
-# TODO missing_commands:
+# TODO missing commands:
 ###
-  .command 'notes [id]', 'get one/all note(s)'
   .command 'tags <action> [params...]', 'tag related activities'
 ###
 
@@ -18,6 +17,7 @@ define('Use pinboard.in from the command line.')
   .command 'dates', 'bookmarks separated by date'
   .command 'delete <url>', 'delete a bookmark'
   .command 'get', 'get bookmark(s)'
+  .command 'notes [id]', 'get one/all note(s)'
   .command 'recent', 'most recent bookmarks'
   .command 'secret', 'your secret feed\'s RSS key'
   .command 'suggest <url>', 'suggest tags'

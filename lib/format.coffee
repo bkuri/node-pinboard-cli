@@ -9,27 +9,40 @@ module.exports =
         when 'color'
           chalk = (require 'chalk')
           data = data.posts if data.posts?
+          data = data.notes if data.notes?
           text = '\n\n'
 
-          render = (key, value) ->
+          render = (val...) ->
             switch type
 
               when 'bookmarks'
                 """
-                #{chalk.bold.white key.description}
-                #{chalk.yellow key.tags or '--'}
-                #{chalk.dim.gray key.href}\n\n
+                #{chalk.bold.white val[0].description}
+                #{chalk.yellow val[0].tags or '--'}
+                #{chalk.dim.gray val[0].href}\n\n
                 """
 
-              when 'dates', 'tags', 'notes'
-                "#{chalk.bold.white key}: #{value}\n"
+              when 'dates', 'tags'
+                "#{chalk.bold.white val[0]}: #{val[0]}\n"
 
-              when 'error' then chalk.bold.red(key)
-              else chalk.bold.green(key[type])
+              when 'error'
+                chalk.bold.red(val[0])
+
+              when 'note'
+                "\n#{chalk.bold.white val[0].title}\n#{val[0].text}"
+
+              when 'notes'
+                "#{chalk.bold.white val[0]}: [#{chalk.gray val[1]}] #{val[2]}\n"
+
+              else
+                chalk.bold.green(val[0][type])
 
 
           if Array.isArray(data)
             text += switch type
+
+              when 'notes'
+                render(n.updated_at, n.id, n.title) for n in data
 
               when 'tags'
                 category = ['popular', 'recommended']
