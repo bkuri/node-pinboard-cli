@@ -3,12 +3,13 @@
 
 module.exports =
   argv: (options) ->
-    {intersection} = require('lodash')
+    {indexOf, intersection, last} = require('lodash')
     argv = process.argv.concat()
     list = ['--help', '']
+    req = []
 
-    list.push(o.long, o.short) for o in options when (o.required < 0)
-    argv.push('') unless intersection(list, argv).length > 0
+    req.push(o.long, o.short) for o in options when (o.required < 0)
+    argv.push('') if indexOf(req, last(argv)) < 0 or intersection(list, argv).length
     return argv
 
 

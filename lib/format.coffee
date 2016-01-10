@@ -4,6 +4,7 @@
 module.exports =
   format: (what) ->
     return (data, type='result') ->
+      {render} = (require './templates')
       result = switch what
 
         when 'color'
@@ -14,7 +15,7 @@ module.exports =
             when data.result? then data.result
             else data
 
-          render = (require './templates').render(type)
+          render = render(type)
           text = '\n\n'
 
           switch type
@@ -39,6 +40,10 @@ module.exports =
 
         when 'json'
           JSON.stringify(data)
+
+        else
+          type = 'error'
+          render(type)('Unknown format specified.')
 
 
       isError = (type is 'error')
