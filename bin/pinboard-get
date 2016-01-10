@@ -27,7 +27,7 @@ get
         url: get.url
 
       pinboard().get options, (result) ->
-        respond result, 'bookmark'
+        respond result, 'bookmarks'
 
     catch error
       respond error, 'error'

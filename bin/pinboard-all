@@ -31,7 +31,7 @@ all
         todt: all.toDt
 
       pinboard().all options, (result) ->
-        respond result, 'bookmark'
+        respond result, 'bookmarks'
 
     catch error
       respond error, 'error'

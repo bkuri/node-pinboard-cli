@@ -14,14 +14,16 @@ module.exports =
           render = (key, value) ->
             switch type
 
-              when 'bookmark'
+              when 'bookmarks'
                 """
                 #{chalk.bold.white key.description}
                 #{chalk.yellow key.tags or '--'}
                 #{chalk.dim.gray key.href}\n\n
                 """
 
-              when 'date', 'tags' then "#{chalk.bold.white key}: #{value}\n"
+              when 'dates', 'tags', 'notes'
+                "#{chalk.bold.white key}: #{value}\n"
+
               when 'error' then chalk.bold.red(key)
               else chalk.bold.green(key[type])
 

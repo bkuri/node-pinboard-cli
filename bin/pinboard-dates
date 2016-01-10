@@ -21,7 +21,7 @@ dates
         tags: dates.tags
 
       pinboard().dates options, (result) ->
-        respond result, 'date'
+        respond result, 'dates'
 
     catch error
       respond error, 'error'
