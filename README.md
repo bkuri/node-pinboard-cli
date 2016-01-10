@@ -27,7 +27,7 @@ You can optionally set environment variables to set the default output format an
   export PINBOARD_VERBOSE=true
 ```
 
-After that you're ready to start using pinboard in the command line! Most commands are available, but a few more are coming soon (namely note and tag handling is missing).
+After that you're ready to start using pinboard in the command line! Most commands are available, but more is coming soon (namely tag handling is missing).
 
 
 ## Usage:
@@ -42,6 +42,7 @@ After that you're ready to start using pinboard in the command line! Most comman
     dates             bookmarks separated by date
     delete <url>      delete a bookmark
     get               get bookmark(s)
+    notes [id]        get one/all note(s)
     recent            most recent bookmarks
     secret            your secret feed's RSS key
     suggest <url>     suggest tags
