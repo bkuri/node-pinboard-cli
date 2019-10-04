@@ -1,38 +1,39 @@
 'use strict'
 
+render = (what) ->
+  callback = (val...) ->
+    chalk = require('chalk')
 
-module.exports =
-  render: (what) ->
-    return (val...) ->
+    text = switch what
+      when 'bookmarks'
+        """
+        #{ chalk.bold.white val[0].description }
+        #{ chalk.yellow val[0].tags or '--' }
+        #{ chalk.dim.gray val[0].href }\n\n
+        """
 
-      chalk = require('chalk')
-      text = switch what
+      when 'dates', 'suggestions', 'tags'
+        "#{ chalk.bold.white val[0] }: #{ val[1] }\n"
 
-        when 'bookmarks'
-          """
-          #{chalk.bold.white val[0].description}
-          #{chalk.yellow val[0].tags or '--'}
-          #{chalk.dim.gray val[0].href}\n\n
-          """
+      when 'error'
+        chalk.bold.red(val[0])
 
-        when 'dates', 'suggestions', 'tags'
-          "#{chalk.bold.white val[0]}: #{val[1]}\n"
+      when 'note'
+        "\n#{ chalk.bold.white val[0].title }\n#{ val[0].text }"
 
-        when 'error'
-          chalk.bold.red(val[0])
+      when 'notes'
+        "#{ chalk.bold.white val[0]}: [#{ chalk.gray val[1] }] #{ val[2] }\n"
 
-        when 'note'
-          "\n#{chalk.bold.white val[0].title}\n#{val[0].text}"
+      when 'result'
+        chalk.bold.green val[0]
 
-        when 'notes'
-          "#{chalk.bold.white val[0]}: [#{chalk.gray val[1]}] #{val[2]}\n"
+      else
+        chalk.bold.green val[0][what]
 
-        when 'result'
-          chalk.bold.green val[0]
+    if chalk.supportsColor then text
+    else chalk.stripColor(text)
+    return
 
-        else
-          chalk.bold.green val[0][what]
+  return callback
 
-
-      if chalk.supportsColor then text
-      else chalk.stripColor(text)
+module.exports = { render }

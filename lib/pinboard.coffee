@@ -1,15 +1,16 @@
-# This is basically node-pinboard + coffeescript. I used the version from github because the npm module seems to be out of date.
-
 'use strict'
 
+###
+This is basically node-pinboard + coffeescript.
+I used the version from github because the npm module seems to be out of date.
+###
 
-{get} = require('request')
-{isFunction, merge} = require('lodash')
-apiURL = 'https://api.pinboard.in/v1'
-
+{ get } = require('request')
+{ isFunction, merge } = require('lodash')
+URL_API = 'https://api.pinboard.in/v1'
 
 method = (endpoint, singleOption) ->
-  return (opts, cb) ->
+  callback = (opts, cb) ->
     if singleOption?
       optsObj = {}
       optsObj[singleOption] = opts
@@ -25,7 +26,7 @@ method = (endpoint, singleOption) ->
     params =
       json: yes
       qs: merge(auth_token: @token, format: 'json', opts)
-      uri: "#{apiURL}/#{endpoint}"
+      uri: "#{ URL_API }/#{ endpoint }"
 
     get params, (err, res, body) ->
       if err?
@@ -38,6 +39,7 @@ method = (endpoint, singleOption) ->
       else
         return body
 
+    return callback
 
 class Pinboard
   constructor: (@token) ->
@@ -70,7 +72,7 @@ class Pinboard
 
   # API docs: "Returns an individual user note. The hash property is a 20 character long sha1 hash of the note text."
   getNote: (id, cb) ->
-    method("notes/#{id}").bind(this)({}, cb)
+    method("notes/#{ id }").bind(this)({}, cb)
     return
 
   # "Returns a full list of the user's tags along with the number of times they were used."
@@ -95,6 +97,5 @@ class Pinboard
 
   # API docs: "Returns the user's secret RSS key (for viewing private feeds)"
   userSecret: method('user/secret')
-
 
 module.exports = Pinboard

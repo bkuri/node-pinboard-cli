@@ -1,42 +1,42 @@
 'use strict'
 
+argv = (options) ->
+  { indexOf, intersection, last } = require('lodash')
+  args = process.argv.concat()
+  list = [ '--help', '' ]
+  req = []
 
-module.exports =
-  argv: (options) ->
-    {indexOf, intersection, last} = require('lodash')
-    argv = process.argv.concat()
-    list = ['--help', '']
-    req = []
+  req.push(o.long, o.short) for o in options when (o.required < 0)
+  args.push('') if indexOf(req, last(args)) is -1 and intersection(list, args).length < 1
+  return args
 
-    req.push(o.long, o.short) for o in options when (o.required < 0)
-    argv.push('') if indexOf(req, last(argv)) is -1 and intersection(list, argv).length < 1
-    return argv
+define = (description) ->
+  require('commander')
+    .version require('../package').version
+    .description description
 
+  return
 
-  define: (description) ->
-    require('commander')
-      .version (require '../package').version
-      .description description
+one = (pri, sec) ->
+  return if (pri? and sec?) then (pri or sec) else sec
 
+pinboard: ->
+  require('node-env-file')("#{ __dirname }/.env")
+  { PINBOARD_TOKEN } = process.env
+  { notEqual } = require('assert')
 
-  one: (pri, sec) ->
-    if (pri? and sec?) then (pri or sec) else sec
+  try
+    notEqual PINBOARD_TOKEN, 'user:XXXXXXXXXXXXXXXXXXXX'
+    new (require './pinboard')(PINBOARD_TOKEN)
 
+  catch
+    console.error 'PINBOARD_TOKEN environment variable not found.'
+    process.exit yes
 
-  pinboard: ->
-    require('node-env-file')("#{__dirname}/.env")
-    {PINBOARD_TOKEN} = process.env
-    {notEqual} = (require 'assert')
+  return
 
-    try
-      notEqual PINBOARD_TOKEN, 'user:XXXXXXXXXXXXXXXXXXXX'
-      new (require './pinboard')(PINBOARD_TOKEN)
+yesno = (what) ->
+  return undefined unless what?
+  return if (what is yes) then 'yes' else 'no'
 
-    catch
-      console.error 'PINBOARD_TOKEN environment variable not found.'
-      process.exit yes
-
-
-  yesno: (what) ->
-    return undefined unless what?
-    if (what is yes) then 'yes' else 'no'
+module.exports = { argv, define, one, pinboard, yesno }
