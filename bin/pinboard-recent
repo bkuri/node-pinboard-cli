@@ -1,11 +1,8 @@
 #!/usr/bin/coffee
 'use strict'
 
-
-{PINBOARD_FORMAT} = process.env
-{argv, define, one, pinboard} = require('../lib/tools')
-
-
+{ PINBOARD_FORMAT } = process.env
+{ argv, define, one, pinboard } = require('../lib/tools')
 recent = define('Returns a list of the user\'s most recent posts, filtered by tag.')
 
 recent
@@ -14,18 +11,23 @@ recent
   .option '-t --tags <tags>', 'filter by up to 3 tags (comma-separated)'
 
   .action ->
-    {format} = require('../lib/format')
+    { format } = require('../lib/format')
     respond = format one(recent.format, PINBOARD_FORMAT)
+
+    callback = (result) ->
+      respond result, 'bookmarks'
+      return
 
     try
       options =
         count: recent.count
         tags: recent.tags
 
-      pinboard().recent options, (result) ->
-        respond result, 'bookmarks'
+      pinboard().recent options, callback
+      return
 
     catch error
       respond error, 'error'
+      return
 
   .parse argv(recent.options)

@@ -1,29 +1,30 @@
 #!/usr/bin/coffee
 'use strict'
 
+process.exit(yes) if (process.argv.length < 3)
 
-(process.exit yes) if (process.argv.length < 3)
-
-
-{PINBOARD_FORMAT} = process.env
-{argv, define, one, pinboard} = require('../lib/tools')
-
-
+{ PINBOARD_FORMAT } = process.env
+{ argv, define, one, pinboard } = require('../lib/tools')
 suggest = define('Returns a list of popular tags and recommended tags for a given URL. Popular tags are tags used site-wide for the url; recommended tags are drawn from the user\'s own tags.')
 
 suggest
   .option '-f --format <fmt>', 'output format', /^(color|json)$/i
 
   .action (url) ->
-    {format} = require('../lib/format')
+    { format } = require('../lib/format')
     respond = format one(suggest.format, PINBOARD_FORMAT)
 
+    callback = (result) ->
+      respond result, 'suggestions'
+      return
+
     try
-      pinboard().suggest url, (result) ->
-        respond result, 'suggestions'
+      pinboard().suggest url, callback
+      return
 
     catch error
       respond error, 'error'
+      return
 
   .usage '<url>'
   .parse argv(suggest.options)

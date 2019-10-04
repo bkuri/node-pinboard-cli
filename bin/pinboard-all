@@ -1,11 +1,8 @@
 #!/usr/bin/coffee
 'use strict'
 
-
-{PINBOARD_FORMAT} = process.env
-{argv, define, one, pinboard} = require('../lib/tools')
-
-
+{ PINBOARD_FORMAT } = process.env
+{ argv, define, one, pinboard } = require('../lib/tools')
 all = define('Returns all bookmarks in the user\'s account.')
 
 all
@@ -18,8 +15,12 @@ all
   .option '-T --to-dt <date>', 'bookmarks created before this time'
 
   .action ->
-    {format} = require('../lib/format')
+    { format } = require('../lib/format')
     respond = format one(all.format, PINBOARD_FORMAT)
+
+    callback = (result) ->
+      respond result, 'bookmarks'
+      return
 
     try
       options =
@@ -30,10 +31,11 @@ all
         tag: all.tag
         todt: all.toDt
 
-      pinboard().all options, (result) ->
-        respond result, 'bookmarks'
+      pinboard().all options, callback
+      return
 
     catch error
       respond error, 'error'
+      return
 
   .parse argv(all.options)

@@ -1,11 +1,8 @@
 #!/usr/bin/coffee
 'use strict'
 
-
-{PINBOARD_FORMAT} = process.env
-{argv, define, one, pinboard, yesno} = require('../lib/tools')
-
-
+{ PINBOARD_FORMAT } = process.env
+{ argv, define, one, pinboard, yesno } = require('../lib/tools')
 add = define('Add a bookmark.')
 
 add
@@ -18,8 +15,12 @@ add
   .option '-t --tags <tags>', 'filter by up to 3 tags (comma-separated)'
 
   .action  (url, description) ->
-    {format} = require('../lib/format')
+    { format } = require('../lib/format')
     respond = format one(add.format, PINBOARD_FORMAT)
+
+    callback = (result) ->
+      respond result, 'result_code'
+      return
 
     try
       bookmark =
@@ -32,11 +33,12 @@ add
         toread: yesno(add.toRead)
         url: url
 
-      pinboard().add bookmark, (result) ->
-        respond result, 'result_code'
+      pinboard().add bookmark, callback
+      return
 
     catch error
       respond error, 'error'
+      return
 
   .usage '<url> <description>'
   .parse argv(add.options)

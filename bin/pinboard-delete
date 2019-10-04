@@ -1,29 +1,30 @@
 #!/usr/bin/coffee
 'use strict'
 
+process.exit(yes) if (process.argv.length < 3)
 
-(process.exit yes) if (process.argv.length < 3)
-
-
-{PINBOARD_FORMAT} = process.env
-{argv, define, one, pinboard} = require('../lib/tools')
-
-
+{ PINBOARD_FORMAT } = process.env
+{ argv, define, one, pinboard } = require('../lib/tools')
 del = define('Delete a bookmark.')
 
 del
   .option '-f --format <fmt>', 'output format', /^(color|json)$/i
 
   .action (url) ->
-    {format} = require('../lib/format')
+    { format } = require('../lib/format')
     respond = format one(del.format, PINBOARD_FORMAT)
 
+    callback = (result) ->
+      respond result, 'result_code'
+      return
+
     try
-      pinboard().delete url, (result) ->
-        respond result, 'result_code'
+      pinboard().delete url, callback
+      return
 
     catch error
       respond error, 'error'
+      return
 
   .usage '<url>'
   .parse argv(del.options)

@@ -1,31 +1,37 @@
 #!/usr/bin/coffee
 'use strict'
 
-
-{PINBOARD_FORMAT} = process.env
-{argv, define, one, pinboard} = require('../lib/tools')
-
-
+{ PINBOARD_FORMAT } = process.env
+{ argv, define, one, pinboard } = require('../lib/tools')
 notes = define('Returns an individual user note id `id` is specified. Otherwise returns all of them.')
 
 notes
   .option '-f --format <fmt>', 'output format', /^(color|json)$/i
 
   .action (id) ->
-    {format} = require('../lib/format')
+    { format } = require('../lib/format')
     respond = format one(notes.format, PINBOARD_FORMAT)
 
     try
       if id?.length
-        pinboard().getNote id, (result) ->
+        callback = (result) ->
           respond result, 'note'
+          return
+
+        pinboard().getNote id, callback
+        return
 
       else
-        pinboard().listNotes (result) ->
+        callback = (result) ->
           respond result, 'notes'
+          return
+
+        pinboard().listNotes callback
+        return
 
     catch error
       respond error, 'error'
+      return
 
   .usage '[id]'
   .parse argv(notes.options)

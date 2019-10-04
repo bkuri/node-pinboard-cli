@@ -1,14 +1,7 @@
 #!/usr/bin/coffee
 'use strict'
 
-
-{define} = require('../lib/tools')
-
-
-# TODO missing commands:
-###
-###
-
+{ define } = require('../lib/tools')
 
 define('Use pinboard.in from the command line.')
   .command 'add <url> <desc>', 'add a bookmark'

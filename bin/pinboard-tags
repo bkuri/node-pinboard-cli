@@ -1,11 +1,8 @@
 #!/usr/bin/coffee
 'use strict'
 
-
-{PINBOARD_FORMAT} = process.env
-{argv, define, one, pinboard} = require('../lib/tools')
-
-
+{ PINBOARD_FORMAT } = process.env
+{ argv, define, one, pinboard } = require('../lib/tools')
 tags = define('Returns a full list of the user\'s tags along with the number of times they were used. Can also be used to rename or delete a tag.')
 
 tags
@@ -14,7 +11,7 @@ tags
   .option '-r --rename <tag>', 'rename a tag'
 
   .on '--help', ->
-    console.log '''
+    text = '''
       Examples:
 
         List all tag usage:
@@ -25,29 +22,35 @@ tags
 
         Rename a tag:
           $ pinboard tags -r <tag> <newName>
-
     '''
+    console.log text
+    return
 
   .action (tag) ->
-    {format} = require('../lib/format')
-    [del, ren] = [tags.delete?.length > 0, tags.rename?.length > 0]
-    pinboard = pinboard()
+    { format } = require('../lib/format')
+    [ del, ren ] = [ tags.delete?.length > 0, tags.rename?.length > 0 ]
     respond = format one(tags.format, PINBOARD_FORMAT)
+
+    callback = (result) ->
+      respond result, 'tags'
+      return
 
     try
       unless (del or ren)
-        pinboard.getTags (result) ->
-          respond result, 'tags'
+        pinboard().getTags callback
+        return
 
       if del
-        pinboard.delTag tags.delete, respond
+        pinboard().delTag tags.delete, respond
+        return
 
       if ren
         respond('Tag name required.', 'error') unless tag?.length
-        pinboard.renameTag old: tags.rename, new: tag, respond
-
+        pinboard().renameTag old: tags.rename, new: tag, respond
+        return
 
     catch error
       respond error, 'error'
+      return
 
   .parse argv(tags.options)

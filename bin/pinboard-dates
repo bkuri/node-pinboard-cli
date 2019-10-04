@@ -1,10 +1,8 @@
 #!/usr/bin/coffee
 'use strict'
 
-
-{PINBOARD_FORMAT} = process.env
-{argv, define, one, pinboard} = require('../lib/tools')
-
+{ PINBOARD_FORMAT } = process.env
+{ argv, define, one, pinboard } = require('../lib/tools')
 
 dates = define('Returns a list of dates with the number of posts at each date.')
 
@@ -13,17 +11,19 @@ dates
   .option '-t --tags <tags>', 'filter by up to 3 tags (comma-separated)'
 
   .action ->
-    {format} = require('../lib/format')
+    { format } = require('../lib/format')
     respond = format one(dates.format, PINBOARD_FORMAT)
 
-    try
-      options =
-        tags: dates.tags
+    callback = (result) ->
+      respond result, 'dates'
+      return
 
-      pinboard().dates options, (result) ->
-        respond result, 'dates'
+    try
+      pinboard().dates { tags: dates.tags }, callback
+      return
 
     catch error
       respond error, 'error'
+      return
 
   .parse argv(dates.options)
