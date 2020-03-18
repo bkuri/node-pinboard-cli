@@ -20,7 +20,7 @@ define = (description) ->
 one = (pri, sec) ->
   return if (pri? and sec?) then (pri or sec) else sec
 
-pinboard: ->
+pinboard = ->
   require('node-env-file')("#{ __dirname }/.env")
   { PINBOARD_TOKEN } = process.env
   { notEqual } = require('assert')
