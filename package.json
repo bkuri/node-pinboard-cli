@@ -4,12 +4,12 @@
     "pinboard": "bin/pinboard"
   },
   "dependencies": {
-    "chalk": "^2.4.2",
-    "commander": "^3.0.2",
+    "chalk": "^3.0.0",
+    "commander": "^5.0.0",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "node-env-file": "^0.1.8",
-    "request": "^2.88.0"
+    "request": "^2.88.2"
   },
   "description": "Use pinboard.in from the command line.",
   "keywords": [
@@ -26,5 +26,5 @@
     "start": "bin/pinboard",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "0.3.6"
+  "version": "0.3.7"
 }

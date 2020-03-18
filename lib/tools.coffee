@@ -34,7 +34,7 @@ pinboard = ->
   return
 
 yesno = (what) ->
-  return undefined unless what?
+  return what unless what?
   return if (what is yes) then 'yes' else 'no'
 
 module.exports = { argv, define, one, pinboard, yesno }
