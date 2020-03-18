@@ -15,8 +15,6 @@ define = (description) ->
     .version require('../package').version
     .description description
 
-  return
-
 one = (pri, sec) ->
   return if (pri? and sec?) then (pri or sec) else sec
 
